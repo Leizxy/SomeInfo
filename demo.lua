@@ -11,7 +11,7 @@ local function OnEvent(self, event, ...)
 	end
 	used = total - free
 	bagText:SetText("backpack:"..free)
-	self:SetAllPoint(bagText)
+	self:SetAllPoints(bagText)
 	bagFrame:SetScript("OnEnter", function()
 		--GameTooltip位于self的哪个位置
 		GameTooltip:SetOwner(self,"ANCHOR_TOP",0,6)
