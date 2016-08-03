@@ -1,12 +1,19 @@
-setfenv(1, select(2, ...)) 
+local SomeInfo, info = ...
 
-local bag = CreateFrame("Frame",nil,UIParent)--frame
+local bag = CreateFrame("Frame")--frame
 bag:EnableMouse(true)
 local bag_text = bag:CreateFontString(nil,"OVERLAY")
-bag_text:SetFont(unpack(someInfo.Font))
-bag_text:SetPoint(unpack(someInfo.Bag_position))
+bag_text:SetFont(unpack(info.Font))
+bag_text:SetPoint(unpack(info.Bag_position))
 
 local function OnEvent(self, event, ...)
+	if event == "PLAYER_REGEN_DISABLED" then
+		--print("infight")
+		info.Bag_gttShow = false
+	elseif event == "PLAYER_REGEN_ENABLED" then
+		--print("outfight")
+		info.Bag_gttShow = true
+	end
 	--背包空间计算逻辑
 	local free, total, used = 0,0,0
 	for i = 0,NUM_BAG_SLOTS do
@@ -16,20 +23,17 @@ local function OnEvent(self, event, ...)
 	
 	bag_text:SetText("背包:"..free)
 	self:SetAllPoints(bag_text)
-	if event == "PLAYER_REGEN_DISABLED" then
-		someInfo.Bag_gttShow == false
-	elseif event == "PLAYER_REGEN_ENABLED"
-		someInfo.Bag_gttShow == true
-	end
+	
 	--ggt(悬浮界面)
 	bag:SetScript("OnEnter",function()
-		if someInfo.Bag_gttShow then
+		if info.Bag_gttShow then
 			GameTooltip:SetOwner(self,"ANCHOR_BOTTOM",0,0)
 			GameTooltip:ClearAllPoints()
-			GameTooltip:SetPoint(unpack(someInfo.Bag_gttPosition))
+			GameTooltip:SetPoint(unpack(info.Bag_gttPosition))
 			GameTooltip:ClearLines()
-			GameTooltip:AddLine("  ")
-			GameTooltip:AddDoubleLine("",free.."/"..total.."  ",0.6,0.8,1,1,1,1)
+			--GameTooltip:AddLine("  ")
+			GameTooltip:AddLine(used.."/"..total,1,1,1)
+			--GameTooltip:AddDoubleLine("",free.."/"..total.."  ",0.6,0.8,1,1,1,1)
 			GameTooltip:Show()
 		end
 	end)
@@ -38,15 +42,15 @@ local function OnEvent(self, event, ...)
 end
 bag:SetScript("OnEvent",OnEvent)
 bag:SetScript("OnMouseDown", function(self,button)
-	if someInfo.Bag_gttShow then
+	if info.Bag_gttShow then
 		if button == "RightButton" then
-			--log
-			logonchat("click rb")
-		elseif
+			print("click rb")
+		else
 			ToggleAllBags()
 		end
 	end
 end)
+
 bag:RegisterEvent("PLAYER_LOGIN")
 bag:RegisterEvent("BAG_UPDATE")
 bag:RegisterEvent("PLAYER_REGEN_DISABLED")
@@ -78,4 +82,3 @@ f:SetScript("OnEvent", function()
 	--end
 end)
 f:RegisterEvent("MERCHANT_SHOW")
-

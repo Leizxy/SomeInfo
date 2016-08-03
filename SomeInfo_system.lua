@@ -1,15 +1,40 @@
-setfenv(1, select(2, ...))
+local SomeInfo, info = ...
+--local info = addon.info
 
-local system = Create("Frame")
+local system = CreateFrame("Frame")
 system:EnableMouse(true)
 local system_Text = system:CreateFontString(nil,"OVERLAY")
-system_Text:SetFont(unpack(someInfo.Font))
-system_Text:SetPoint(unpack(someInfo.System_position))
-system:SetAllPoints(system_Text)
-system:SetScript("OnUpdate",onUpdate)
-
-local function onUpdate(self,t)
-	logonchat(t)
-	
-	system_Text:SetText("|cffD809090".."|rFps ".."|cff0CD809".."|rMs")
+system_Text:SetFont(unpack(info.Font))
+system_Text:SetPoint(unpack(info.System_position))
+ 
+local function setColor(arg)
+	if arg < 300 then
+		return "|cff0CD809"..arg
+	elseif ( arg >= 300 and arg < 500 ) then 
+		return "|cffE8DA0F"..arg
+	else
+		return "|cffD80909"..arg
+	end
 end
+local step = 1
+local function Update(self,t)--参数t是秒单位。所以t的值一般都是几ms
+	--print(t)
+	step = step - t 
+	local fps = ""
+	local ms = ""
+	if step < 0 then
+		local down, up, lagHome, lagWorld = GetNetStats()
+		ms = setColor(lagHome).."/"..setColor(lagWorld)
+		if floor(GetFramerate()) >=30 then
+			fps = "|cff0CD809"..floor(GetFramerate())
+		elseif (floor(GetFramerate()) > 15 and floor(GetFramerate()) <30) then
+			fps = "|cffE8DA0F"..floor(GetFramerate())
+		else
+			fps = "|cffD80909"..floor(GetFramerate())
+		end
+		step = 1
+		system_Text:SetText(fps.."|rFps "..ms.."|rMs")
+	end
+end
+system:SetAllPoints(system_Text)
+system:SetScript("OnUpdate",Update)
