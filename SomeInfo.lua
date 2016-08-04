@@ -17,7 +17,7 @@ info.System_position = {"TOP",UIParent,"TOP",0,-2}
 info.System_gttposi = {"BOTTOM",self,"TOP",0,1}
 
 --Font
-info.Font = {"Fonts\\ARHei.ttf",10,"THINOUTLINE"}
+info.Font = {"Fonts\\ARHei.ttf",10,"OUTLINE"}
 
 --addon.info = info
 
@@ -43,3 +43,16 @@ info.SetColorText = function(num,str)
 		return str
 	end
 end
+
+-- 
+info.ShowGameToolTip = function(...)
+	local frame = select(1,...)
+	local func = select(2,...)
+	frame:SetScript("OnEnter",function()
+		--info.GameTooltip = function() end
+		func()
+		-- GameTooltip:Show()
+	end)
+	frame:SetScript("OnLeave",function() GameTooltip:Hide() end)
+end
+
