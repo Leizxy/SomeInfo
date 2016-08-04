@@ -43,3 +43,10 @@ info.SetColorText = function(num,str)
 		return str
 	end
 end
+
+-- 
+info.ShowGameToolTip = function(...)
+	
+
+end
+
