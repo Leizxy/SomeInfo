@@ -35,6 +35,17 @@ local function Update(self,t)--参数t是秒单位。所以t的值一般都是�
 		step = 1
 		system_Text:SetText(fps.."|rFps "..ms.."|rMs")
 	end
+	--test
+	local func = function()
+		GameTooltip:SetOwner(self,"ANCHOR_BOTTOM",0,0)
+		GameTooltip:ClearAllPoints()
+		GameTooltip:SetPoint(unpack(info.System_gttposi))
+		GameTooltip:ClearLines()
+		GameTooltip:AddLine(ms.."MS",1,1,1)
+		GameTooltip:AddLine("待定",1,1,1)
+	end
+	info.ShowGameToolTip(system,func)
+	--[[
 	system:SetScript("OnEnter",function()
 		GameTooltip:SetOwner(self,"ANCHOR_BOTTOM",0,0)
 		GameTooltip:ClearAllPoints()
@@ -45,6 +56,7 @@ local function Update(self,t)--参数t是秒单位。所以t的值一般都是�
 		GameTooltip:Show()
 	end)
 	system:SetScript("OnLeave",function() GameTooltip:Hide() end)
+	]]
 end
 system:SetAllPoints(system_Text)
 system:SetScript("OnUpdate",Update)

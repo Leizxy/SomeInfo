@@ -46,7 +46,13 @@ end
 
 -- 
 info.ShowGameToolTip = function(...)
-	
-
+	local frame = select(1,...)
+	local func = select(2,...)
+	frame:SetScript("OnEnter",function()
+		--info.GameTooltip = function() end
+		func()
+		GameTooltip:Show()
+	end)
+	frame:SetScript("OnLeave",function() GameTooltip:Hide() end)
 end
 
