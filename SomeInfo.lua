@@ -17,7 +17,7 @@ info.System_position = {"TOP",UIParent,"TOP",0,-2}
 info.System_gttposi = {"BOTTOM",self,"TOP",0,1}
 
 --Font
-info.Font = {"Fonts\\ARHei.ttf",10,"THINOUTLINE"}
+info.Font = {"Fonts\\ARHei.ttf",10,"OUTLINE"}
 
 --addon.info = info
 
@@ -51,7 +51,7 @@ info.ShowGameToolTip = function(...)
 	frame:SetScript("OnEnter",function()
 		--info.GameTooltip = function() end
 		func()
-		GameTooltip:Show()
+		-- GameTooltip:Show()
 	end)
 	frame:SetScript("OnLeave",function() GameTooltip:Hide() end)
 end

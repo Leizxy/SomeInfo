@@ -6,7 +6,10 @@ system:EnableMouse(true)
 local system_Text = system:CreateFontString(nil,"OVERLAY")
 system_Text:SetFont(unpack(info.Font))
 system_Text:SetPoint(unpack(info.System_position))
- 
+
+local width,height = system_Text:GetWidth(),system_Text:GetHeight()
+info.test("system_Text:"..width..", "..height)
+
 local function setColor(arg)
 	if arg < 300 then
 		return "|cff0CD809"..arg
@@ -43,6 +46,7 @@ local function Update(self,t)--参数t是秒单位。所以t的值一般都是�
 		GameTooltip:ClearLines()
 		GameTooltip:AddLine(ms.."MS",1,1,1)
 		GameTooltip:AddLine("待定",1,1,1)
+		GameTooltip:Show()
 	end
 	info.ShowGameToolTip(system,func)
 	--[[

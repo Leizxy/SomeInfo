@@ -6,9 +6,9 @@ local bag_text = bag:CreateFontString(nil,"OVERLAY")
 bag_text:SetFont(unpack(info.Font))
 bag_text:SetPoint(unpack(info.Bag_position))
 -- test
-print(info.test("functest"))
+-- print(info.test("functest"))
 local width,height = bag_text:GetWidth(),bag_text:GetHeight()
-info.test(width..","..height)
+info.test("bag:"..width..", "..height)
 
 local function OnEvent(self, event, ...)
 	if event == "PLAYER_REGEN_DISABLED" then
@@ -29,7 +29,7 @@ local function OnEvent(self, event, ...)
 	self:SetAllPoints(bag_text)
 	
 
-		-- print(bag:GetMaxResize()))	
+	--[[
 	--ggt(悬浮界面)
 	bag:SetScript("OnEnter",function()
 		-- 获取bag的宽高
@@ -46,6 +46,21 @@ local function OnEvent(self, event, ...)
 		end
 	end)
 	bag:SetScript("OnLeave",function()GameTooltip:Hide()end)
+	]]
+	
+	local func = function()
+		if info.Bag_gttShow then
+			GameTooltip:SetOwner(self,"ANCHOR_BOTTOM",0,0)
+			GameTooltip:ClearAllPoints()
+			GameTooltip:SetPoint(unpack(info.Bag_gttPosition))
+			GameTooltip:ClearLines()
+			--GameTooltip:AddLine("  ")
+			GameTooltip:AddLine(used.."/"..total,1,1,1)
+			--GameTooltip:AddDoubleLine("",free.."/"..total.."  ",0.6,0.8,1,1,1,1)
+			GameTooltip:Show()
+		end
+	end
+	info.ShowGameToolTip(bag,func)
 	
 end
 bag:SetScript("OnEvent",OnEvent)
