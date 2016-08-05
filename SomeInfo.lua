@@ -33,18 +33,19 @@ info.SetColorText = function(num,str)
 		return "|cff00ff00"..str.."|r"
 	elseif num == 3 then
 		return "|cff0000ff"..str.."|r"
-	elseif num == 4 then
+	elseif num == 4 then --绿
 		return "|cff0CD809"..str.."|r"
-	elseif num == 5 then
+	elseif num == 5 then --黄？
 		return "|cffE8DA0F"..str.."|r"
-	elseif num == 6 then
+	elseif num == 6 then --红
 		return "|cffD80909"..str.."|r"
 	else
 		return str
 	end
 end
 
--- 
+
+-- GTT的一些抽取方法
 info.ShowGameToolTip = function(...)
 	local frame = select(1,...)
 	local func = select(2,...)
@@ -55,4 +56,5 @@ info.ShowGameToolTip = function(...)
 	end)
 	frame:SetScript("OnLeave",function() GameTooltip:Hide() end)
 end
+
 
