@@ -27,41 +27,31 @@ local function OnEvent(self, event, ...)
 	
 	bag_text:SetText("背包:"..free)
 	self:SetAllPoints(bag_text)
-	
 
-	--[[
-	--ggt(悬浮界面)
-	bag:SetScript("OnEnter",function()
-		-- 获取bag的宽高
-	
-		if info.Bag_gttShow then
-			GameTooltip:SetOwner(self,"ANCHOR_BOTTOM",0,0)
-			GameTooltip:ClearAllPoints()
-			GameTooltip:SetPoint(unpack(info.Bag_gttPosition))
-			GameTooltip:ClearLines()
-			--GameTooltip:AddLine("  ")
-			GameTooltip:AddLine(used.."/"..total,1,1,1)
-			--GameTooltip:AddDoubleLine("",free.."/"..total.."  ",0.6,0.8,1,1,1,1)
-			GameTooltip:Show()
-		end
-	end)
-	bag:SetScript("OnLeave",function()GameTooltip:Hide()end)
-	]]
-	
+	local arg1 = {self,"ANCHOR_BOTTOM",0,0}--SetOwner参数（可考虑抽取上去，待定）
+	local arg2 = {unpack(info.Bag_gttPosition)}--gtt位置参数
+	--ggt里显示内容
+	local arg3 = function()
+		GameTooltip:AddLine("背包",0,.6,1)
+		GameTooltip:AddLine("    ")
+		GameTooltip:AddDoubleLine("总计"..":",info.SetColorText(4,total),.6,.8,1,1,1,1)
+		GameTooltip:AddDoubleLine("使用"..":",info.SetColorText(4,used),.6,.8,1,1,1,1)
+		GameTooltip:AddDoubleLine("")
+	end
+	local gtt_arg = {arg1,arg2,arg3}
 	local func = function()
 		if info.Bag_gttShow then
-			GameTooltip:SetOwner(self,"ANCHOR_BOTTOM",0,0)
-			GameTooltip:ClearAllPoints()
-			GameTooltip:SetPoint(unpack(info.Bag_gttPosition))
-			GameTooltip:ClearLines()
-			GameTooltip:AddLine("背包",0,.6,1)
-			GameTooltip:AddLine("    ")
-			GameTooltip:AddDoubleLine("总计"..":","|cff0000ff"..total,.6,.8,1,1,1,1)
-			GameTooltip:AddDoubleLine("使用"..":",used,.6,.8,1,1,1,1)
+			-- GameTooltip:SetOwner(self,"ANCHOR_BOTTOM",0,0)
+			-- GameTooltip:ClearAllPoints()
+			-- GameTooltip:SetPoint(unpack(info.Bag_gttPosition))
+			-- GameTooltip:ClearLines()
+			-- GameTooltip:AddLine("背包",0,.6,1)
+			-- GameTooltip:AddLine("    ")
+			-- GameTooltip:AddDoubleLine("总计"..":",info.SetColorText(4,total),.6,.8,1,1,1,1)
+			-- GameTooltip:AddDoubleLine("使用"..":",info.SetColorText(4,used),.6,.8,1,1,1,1)
 			-- GameTooltip:AddDoubleLine("")
-			-- GameTooltip:AddLine(used.."/"..total,1,1,1)
-			--GameTooltip:AddDoubleLine("",free.."/"..total.."  ",0.6,0.8,1,1,1,1)
-			GameTooltip:Show()
+			-- GameTooltip:Show()
+			info.SetGameToolTip(unpack(gtt_arg))
 		end
 	end
 	info.ShowGameToolTip(bag,func)
@@ -88,11 +78,11 @@ local f = CreateFrame("Frame")
 f:SetScript("OnEvent", function()
 	--if diminfo.AutoSell == true then
 	local c = 0
-	for b = 0, 4 do
-		for s = 1, GetContainerNumSlots(b) do
-			local l = GetContainerItemLink(b, s)
+	for b = 0, 4 do --b是背包选项0~4,0为默认背包
+		for s = 1, GetContainerNumSlots(b) do --s是对应背包各物品栏编号
+			local l = GetContainerItemLink(b, s)--l 获取某个背包某个编号位置的物品的物品id？
 			if l and GetItemInfo(l) ~= nil then
-				local p = select(11, GetItemInfo(l)) * select(2, GetContainerItemInfo(b, s))
+				local p = select(11, GetItemInfo(l)) * select(2, GetContainerItemInfo(b, s))--p=卖价*数量
 				if select(3, GetItemInfo(l)) == 0 and p > 0 then
 					UseContainerItem(b, s)
 					PickupMerchantItem()
@@ -109,3 +99,43 @@ f:SetScript("OnEvent", function()
 	--end
 end)
 f:RegisterEvent("MERCHANT_SHOW")
+
+SLASH_JUSTSELL1 = "/justsell"
+
+function SlashCmdList.JUSTSELL(msg,editbox)
+	if msg == "" then
+		print("|cffD80909Please write down a number after /justsell(like /justsell 10).")
+		print("|cffE8DA0FThis command is to sell something conveniently!")
+		print("|cffD80909请在/justsell命令后面加上数字（例如：/justsell 10）。")
+		print("|cffE8DA0F这个命令是为了方便售卖物品。")
+	else
+		print(type(msg))
+		local number = tonumber(msg)
+		print(type(number))
+		if type(number) ~= number then
+			print("|cffD80909Please write down a number after /justsell(like /justsell 10).")
+			print("|cffD80909请在/justsell命令后面加上数字（例如：/justsell 10）。")
+		else
+			print("sell function")
+			if number>=1 and number<=8 then
+				local f = CreateFrame("Frame")
+				f:SetScript("OnEvent",function()
+					print("merchant_show")
+					for i = 1, number do
+						local itemLink = GetContainerItemLink(0,i)
+						if itemLink and GetItemInfo(itemLink) ~= nil then
+							if select(11,GetItemInfo(itemLink)) >= 0 then
+								UseContainerItem(0,i)
+								PickupMerchantItem()
+							end
+						end
+					end
+				end)
+				f:RegisterEvent("MERCHANT_SHOW")
+			else
+				print("|cffD80909Please write the number between 1~8")
+			end
+		end
+	end
+end
+
