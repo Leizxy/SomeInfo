@@ -43,7 +43,8 @@ info.SetColorText = function(num,str)
 		return str
 	end
 end
-
+-- 转换16进制颜色为GameTooltip所需颜色单位
+-- info
 -- 
 info.ShowGameToolTip = function(...)
 	local frame = select(1,...)
