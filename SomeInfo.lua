@@ -56,13 +56,5 @@ info.ShowGameToolTip = function(...)
 	end)
 	frame:SetScript("OnLeave",function() GameTooltip:Hide() end)
 end
--- GTT的一些准备工作代码
-info.SetGameToolTIp = function(...)
-	local arg = {...}
-	GameTooltip:SetOwner(arg[1])--Owner的参数
-	GameTooltip:ClearAllPoints()
-	GameTooltip:SetPoint(arg[2])--gtt位置参数
-	GameTooltip:ClearLines()
-	arg[3]()--ggt里内容
-	GameTooltip:Show()
-end
+
+
