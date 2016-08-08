@@ -8,6 +8,7 @@ money_Text:SetPoint(unpack(info.Money_position))
 money:SetAllPoints(money_Text)
 
 -- money ∏Ò ΩªØ
+--[[
 local function formatMoney(money)
 	local gold = floor(math.abs(money) / 10000)
 	local silver = mod(floor(math.abs(money) / 100), 100)
@@ -20,24 +21,28 @@ local function formatMoney(money)
 		return format("%s".."|cffeda55fc|r", copper)
 	end
 end
+]]
 
 local function formatTextMoney(money)
 	return format("%.0f|cffffd700%s|r", money * 0.0001, GOLD_AMOUNT_SYMBOL)
 end
-
+--[[
 local function FormatTooltipMoney(money)
 	local gold, silver, copper = abs(money / 10000), abs(mod(money / 100, 100)), abs(mod(money, 100))
 	local cash = ""
 	cash = format("%d".."|cffffd700g|r".." %d".."|cffc7c7cfs|r".." %d".."|cffeda55fc|r", gold, silver, copper)		
 	return cash
 end	
+]]
 
 
 info.ScriptOfFrame(money,"OnEvent",function()
-	money_Text:SetText(formatTextMoney(GetMoney()))
+print(GOLD_AMOUNT_SYMBOL)
+	money_Text:SetText("money:"..GetMoney())
 end)
 
 
+money:RegisterEvent("PLAYER_LOGIN")
 money:RegisterEvent("PLAYER_MONEY")
 money:RegisterEvent("SEND_MAIL_MONEY_CHANGED")
 money:RegisterEvent("SEND_MAIL_COD_CHANGED")

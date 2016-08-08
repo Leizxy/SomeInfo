@@ -18,7 +18,7 @@ info.System_gttposi = {"BOTTOM",self,"TOP",0,1}
 
 -- money
 info.Money_gttShwo = true
-info.Money_position = {"TOP",UIParent,"TOP", 54,-2}
+info.Money_position = {"TOP",UIParent,"TOP", 84,-2}
 info.Money_gttposi = {"BOTTOM",self,"TOP",0,1}
 
 --Font
