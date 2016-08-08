@@ -28,23 +28,6 @@ local function OnEvent(self, event, ...)
 	bag_text:SetText("背包:"..free)
 	self:SetAllPoints(bag_text)
 
-	
-	-- local arg1 = {bag,"ANCHOR_BOTTOM",0,0}--SetOwner参数（可考虑抽取上去，待定）
-	-- local arg2 = {unpack(info.Bag_gttPosition)}--gtt位置参数
-	-- arg2[2] = bag_text
-
-	-- local arg3 = function()
-		-- GameTooltip:AddLine("背包",0,.6,1)
-		-- GameTooltip:AddLine("    ")
-		-- GameTooltip:AddDoubleLine("总计"..":",info.SetColorText(4,total),.6,.8,1,1,1,1)
-		-- GameTooltip:AddDoubleLine("使用"..":",info.SetColorText(4,used),.6,.8,1,1,1,1)
-		-- GameTooltip:AddDoubleLine("")
-	-- end
-	-- local gtt_arg = {arg1,arg2,arg3}
-	
-	-- local setGTT = function()
-		-- info.SetGameToolTip(arg1,arg2,arg3)
-	-- end
 	local func = function()
 		if info.Bag_gttShow then
 			GameTooltip:SetOwner(self,"ANCHOR_BOTTOM",0,0)
@@ -106,6 +89,8 @@ f:SetScript("OnEvent", function()
 end)
 f:RegisterEvent("MERCHANT_SHOW")
 
+
+-- 命令卖物品
 SLASH_JUSTSELL1 = "/justsell"
 
 function SlashCmdList.JUSTSELL(msg,editbox)
@@ -122,7 +107,7 @@ function SlashCmdList.JUSTSELL(msg,editbox)
 		-- print(type(type(number)))
 		if type(number) == "number" then
 			if number>=1 and number<=12 then
-			print("sell function"..number)
+			print("sell "..number)
 				sell = true
 				local f = CreateFrame("Frame")
 				f:SetScript("OnEvent",function()
