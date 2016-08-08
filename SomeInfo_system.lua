@@ -1,14 +1,10 @@
 local SomeInfo, info = ...
---local info = addon.info
 
 local system = CreateFrame("Frame")
 system:EnableMouse(true)
 local system_Text = system:CreateFontString(nil,"OVERLAY")
 system_Text:SetFont(unpack(info.Font))
 system_Text:SetPoint(unpack(info.System_position))
-
--- local width,height = system_Text:GetWidth(),system_Text:GetHeight()
--- info.test("system_Text:"..width..", "..height)
 
 local function setColor(arg)
 	if arg < 300 then
