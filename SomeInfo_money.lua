@@ -8,10 +8,13 @@ money_Text:SetPoint(unpack(info.Money_position))
 money:SetAllPoints(money_Text)
 
 local gold_frame = CreateFrame("Frame")
+gold_frame:SetWidth(15)
+gold_frame:SetHeight(15)
+gold_frame:SetScale(.8)
 gold_frame:SetPoint("LEFT",money,"RIGHT",1,0)
 gold_frame.texture = gold_frame:CreateTexture(nil,"ARTWORK")
-gold_frame.texture:SetTexture("Interface\MoneyFrame\UI-GoldIcon")
-gold_frame.texture:SetPoint("CENTER",gold_frame,0,0)
+gold_frame.texture:SetTexture("Interface\\MONEYFRAME\\UI-GoldIcon")
+gold_frame.texture:SetPoint("CENTER",gold_frame,"CENTER",0,0)
 
 -- money ∏Ò ΩªØ
 --[[
@@ -30,7 +33,15 @@ end
 ]]
 
 local function formatTextMoney(money)
-	return format("%.0f|cffffd700%s|r", money * 0.0001, GOLD_AMOUNT_SYMBOL)
+	local gold = floor(money/10000)
+	if gold < 1000 then
+		return gold
+	elseif gold >= 1000 and gold <1000000 then
+		return floor(gold/1000)..","..mod(gold,1000)
+	else
+		return floor(gold/1000000).."M"
+	end
+	-- return format("%.0f|cffffd700|r", money * 0.0001)
 end
 --[[
 local function FormatTooltipMoney(money)
