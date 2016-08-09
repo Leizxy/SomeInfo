@@ -7,6 +7,12 @@ money_Text:SetFont(unpack(info.Font))
 money_Text:SetPoint(unpack(info.Money_position))
 money:SetAllPoints(money_Text)
 
+local gold_frame = CreateFrame("Frame")
+gold_frame:SetPoint("LEFT",money,"RIGHT",1,0)
+gold_frame.texture = gold_frame:CreateTexture(nil,"ARTWORK")
+gold_frame.texture:SetTexture("Interface\MoneyFrame\UI-GoldIcon")
+gold_frame.texture:SetPoint("CENTER",gold_frame,0,0)
+
 -- money ∏Ò ΩªØ
 --[[
 local function formatMoney(money)
@@ -37,8 +43,9 @@ end
 
 
 info.ScriptOfFrame(money,"OnEvent",function()
-print(GOLD_AMOUNT_SYMBOL)
-	money_Text:SetText("money:"..GetMoney())
+	-- print(GOLD_AMOUNT_SYMBOL)
+	local money = GetMoney()
+	money_Text:SetText(formatTextMoney(money))
 end)
 
 
