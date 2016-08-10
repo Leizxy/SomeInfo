@@ -29,6 +29,7 @@ local function getMemory()
 	for i = 1, GetNumAddOns() do
 		totalMem = totalMem + GetAddOnMemoryUsage(i)
 	end
+	print(totalMem==gcinfo())
 end
 
 
@@ -56,6 +57,7 @@ local function Update(self,t)--参数t是秒单位。所以t的值一般都是�
 	
 	-- GameTooltip
 	local func = function()
+		getMemory()
 		if info.System_gttShow then
 			GameTooltip:SetOwner(self,"ANCHOR_BOTTOM",0,0)
 			GameTooltip:ClearAllPoints()
