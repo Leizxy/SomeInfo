@@ -51,12 +51,31 @@ local function FormatTooltipMoney(money)
 	return cash
 end	
 ]]
-
+--[[
+	TODO
+	将多种货币显示在这儿，好运币，等等，据需求而定。
+]]
 
 info.ScriptOfFrame(money,"OnEvent",function()
 	-- print(GOLD_AMOUNT_SYMBOL)
 	local money = GetMoney()
 	money_Text:SetText(formatTextMoney(money))
+	
+	local func = function()
+		if info.Money_gttShow then
+			GameTooltip:SetOwner(self,"ANCHOR_BOTTOM",0,0)
+			GameTooltip:ClearAllPoints()
+			GameTooltip:SetPoint(unpack(info.Money_gttposi))
+			GameTooltip:ClearLines()
+			GameTooltip:AddLine(CURRENCY,0,.6,1)
+			GameTooltip:AddLine("  ")
+			-- GameTooltip:
+			-- GameTooltip:
+			
+		end
+	end
+	info.ShowGameToolTip(money,func)
+	
 end)
 
 
