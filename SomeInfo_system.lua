@@ -1,6 +1,6 @@
 local SomeInfo, info = ...
 
-local system = CreateFrame("Frame")
+local system = CreateFrame("Frame",nil,UIParent)
 system:EnableMouse(true)
 local system_Text = system:CreateFontString(nil,"OVERLAY")
 system_Text:SetFont(unpack(info.Font))

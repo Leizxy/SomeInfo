@@ -1,13 +1,13 @@
 local SomeInfo, info = ...
 
-local money = CreateFrame("Frame")
+local money = CreateFrame("Frame",nil,UIParent)
 money:EnableMouse(true)
 local money_Text = money:CreateFontString(nil,"OVERLAY")
 money_Text:SetFont(unpack(info.Font))
 money_Text:SetPoint(unpack(info.Money_position))
 money:SetAllPoints(money_Text)
 
-local gold_frame = CreateFrame("Frame")
+local gold_frame = CreateFrame("Frame",nil,UIParent)
 gold_frame:SetWidth(15)
 gold_frame:SetHeight(15)
 gold_frame:SetScale(.8)
@@ -63,7 +63,7 @@ info.ScriptOfFrame(money,"OnEvent",function()
 	
 	local func = function()
 		if info.Money_gttShow then
-			GameTooltip:SetOwner(self,"ANCHOR_BOTTOM",0,0)
+			GameTooltip:SetOwner(money,"ANCHOR_BOTTOM",0,0)
 			GameTooltip:ClearAllPoints()
 			GameTooltip:SetPoint(unpack(info.Money_gttposi))
 			GameTooltip:ClearLines()

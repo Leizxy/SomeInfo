@@ -1,6 +1,6 @@
 local SomeInfo, info = ...
 
-local bag = CreateFrame("Frame")--frame
+local bag = CreateFrame("Frame",nil,UIParent)--frame
 bag:EnableMouse(true)
 local bag_text = bag:CreateFontString(nil,"OVERLAY")
 bag_text:SetFont(unpack(info.Font))
