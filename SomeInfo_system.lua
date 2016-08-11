@@ -23,7 +23,7 @@ end
 	
 	TODO：添加各插件内存和CPU占用（据需求而定吧）
 ]]
-local totalMem
+local totalMem = 0
 local function getMemory()
 	UpdateAddOnMemoryUsage()
 	for i = 1, GetNumAddOns() do
@@ -31,7 +31,15 @@ local function getMemory()
 	end
 	print(totalMem==gcinfo())
 end
-
+local function formatMemory(memory)
+	if memory > 999 then
+		local mem = memory/1024
+		return string.format("%.1fmb",mem)
+	else
+		local mem = floor(memory)
+		return mem.."kb"
+	end
+end
 
 
 
@@ -63,7 +71,7 @@ local function Update(self,t)--参数t是秒单位。所以t的值一般都是�
 			GameTooltip:ClearAllPoints()
 			GameTooltip:SetPoint(unpack(info.System_gttposi))
 			GameTooltip:ClearLines()
-			GameTooltip:AddDoubleLine(format("%s:",ADDONS),totalMem,1,1,1,1,1,1)
+			GameTooltip:AddDoubleLine(format("%s:",ADDONS),formatMemory(totalMem),1,1,1,1,1,1)
 			-- GameTooltip:AddLine(ms.."MS",1,1,1)
 			-- GameTooltip:AddLine("待定",1,1,1)
 			GameTooltip:Show()

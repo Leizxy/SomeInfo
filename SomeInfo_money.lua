@@ -16,7 +16,7 @@ gold_frame.texture = gold_frame:CreateTexture(nil,"ARTWORK")
 gold_frame.texture:SetTexture("Interface\\MONEYFRAME\\UI-GoldIcon")
 gold_frame.texture:SetPoint("CENTER",gold_frame,"CENTER",0,0)
 
--- money ¸ñÊ½»¯
+-- money æ ¼å¼åŒ–
 --[[
 local function formatMoney(money)
 	local gold = floor(math.abs(money) / 10000)
@@ -53,13 +53,13 @@ end
 ]]
 --[[
 	TODO
-	½«¶àÖÖ»õ±ÒÏÔÊ¾ÔÚÕâ¶ù£¬ºÃÔË±Ò£¬µÈµÈ£¬¾İĞèÇó¶ø¶¨¡£
+	å°†å¤šç§è´§å¸æ˜¾ç¤ºåœ¨è¿™å„¿ï¼Œå¥½è¿å¸ï¼Œç­‰ç­‰ï¼Œæ®éœ€æ±‚è€Œå®šã€‚
 ]]
 
 info.ScriptOfFrame(money,"OnEvent",function()
 	-- print(GOLD_AMOUNT_SYMBOL)
-	local money = GetMoney()
-	money_Text:SetText(formatTextMoney(money))
+	local allmoney = GetMoney()
+	money_Text:SetText(formatTextMoney(allmoney))
 	
 	local func = function()
 		if info.Money_gttShow then
@@ -69,7 +69,7 @@ info.ScriptOfFrame(money,"OnEvent",function()
 			GameTooltip:ClearLines()
 			GameTooltip:AddLine(CURRENCY,0,.6,1)
 			GameTooltip:AddLine("  ")
-			-- GameTooltip:
+			GameTooltip:Show()
 			-- GameTooltip:
 			
 		end
