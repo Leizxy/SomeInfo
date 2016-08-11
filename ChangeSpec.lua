@@ -25,7 +25,8 @@ mouseIndex_frame:MouseEnable(true)
 local class_Frame = CreateFrame("Frame","class_Frame",UIParent)
 local class_Frame_Texture = class_Frame:CreateTexture(nil,"ARTWORK")
 class_Frame_Texture:SetPoint("LEFT",mouseIndex_frame,"RIGHT",2,0)
--- class_Frame:Hide()调试用
+class_Frame:MouseEnable(true)
+class_Frame:Hide() --调试用
 local function class_OnEvent(self, event, ...)
 	local classId = select(3,UnitClass("player"))
 	if event == "PLAYER_LOGIN" then
@@ -36,14 +37,20 @@ end
 
 
 mouseIndex_frame:SetScript("OnEnter",function()
-	print(self:GetName().." onEnter")
+	print(self:GetName().." OnEnter")
 	class_Frame:Show()
 end)
 mouseIndex_frame:SetScript("OnLeave",function()
-	print(self:GetName().." onLeave")
-	class_Frame:Hide()
+	print(self:GetName().." OnLeave")
+	-- class_Frame:Hide()
 end)
 class_Frame:SetScript("OnEvent",class_OnEvent)
+class_Frame:SetScript("OnEnter",function()
+	print(self:GetName().." OnEnter")
+end)
+class_Frame:SetScript("OnLeave",function()
+	print(self:GetName().." OnLeave")
+end)
 mouseIndex_frame:RegisterEvent("PLAYER_LOGIN")	
 class_Frame:RegisterEvent("PLAYER_LOGIN")
 class_Frame:RegisterEvent("PLAYER_ENTERING_WORLD")
