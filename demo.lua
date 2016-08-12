@@ -40,7 +40,7 @@ end
 /run print(select(1,GetSpecializationInfo(GetSpecialization())))
 /run print(GetSpecialization())
 /run print(GetActiveSpecGroup())
-
+/run print(GetNumSpecializationsForClassID(select(3,UnitClass("player")))
 -- /run SetActiveSpecGroup(263)
 -- /run SetSpecialization()
 
