@@ -36,11 +36,17 @@ bagFrame:SetScript("OnMouseDown",function(self,button)
 		ToggleAllBags()
 	end
 end
-
+--[[
+]]
+end
 /run print(select(1,GetSpecializationInfo(GetSpecialization())))
+/run print(GetSpecializationInfo(GetSpecialization()))
 /run print(GetSpecialization())
 /run print(GetActiveSpecGroup())
+/run print(select(2,UnitClass("player")))
+/run print(UnitSelectionColor("player"))
 /run print(GetNumSpecializationsForClassID(select(3,UnitClass("player")))
+frame:GetSize() --在update里面获取
 -- /run SetActiveSpecGroup(263)
 -- /run SetSpecialization()
 

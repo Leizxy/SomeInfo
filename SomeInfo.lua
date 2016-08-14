@@ -12,21 +12,21 @@ info.Frames = {}
 
 -- bag
 info.Bag_gttShow = true
-info.Bag_position = {"TOP", UIParent, "TOP", 24, -2}
-info.Bag_gttPosition = {"BOTTOM",self,"TOP",0,1}
+-- info.Bag_position = {"TOP", UIParent, "TOP", 24, -2}
+info.Bag_gttPosition = {"BOTTOM",self,"TOP",0,3}
 
 -- system
 info.System_gttShow = true
-info.System_position = {"TOP",UIParent,"TOP",-40,-2}
-info.System_gttposi = {"BOTTOM",self,"TOP",0,1}
+-- info.System_position = {"TOP",UIParent,"TOP",-40,-2}
+info.System_gttposi = {"BOTTOM",self,"TOP",0,3}
 
 -- money
 info.Money_gttShow = true
-info.Money_position = {"TOP",UIParent,"TOP", 64,-2}
-info.Money_gttposi = {"BOTTOM",self,"TOP",0,1}
+-- info.Money_position = {"TOP",UIParent,"TOP", 64,-2}
+info.Money_gttposi = {"BOTTOM",self,"TOP",0,3}
 
 --Font
-info.Font = {"Fonts\\ARHei.ttf",10,"OUTLINE"}
+info.Font = {"Fonts\\ARHei.ttf",13,"OUTLINE"}
 
 --addon.info = info
 

@@ -4,7 +4,9 @@ local system = CreateFrame("Frame",nil,UIParent)
 system:EnableMouse(true)
 local system_Text = system:CreateFontString(nil,"OVERLAY")
 system_Text:SetFont(unpack(info.Font))
-system_Text:SetPoint(unpack(info.System_position))
+-- system_Text:SetPoint(unpack(info.System_position))
+info.Frames[2] = system_Text
+
 
 local function setColor(arg)
 	if arg < 300 then
@@ -60,6 +62,7 @@ local function Update(self,t)--参数t是秒单位。所以t的值一般都是�
 			fps = "|cffD80909"..floor(GetFramerate())
 		end
 		step = 1
+		-- print(system_Text:GetSize())
 		system_Text:SetText(fps.."|rFps "..ms.."|rMs")
 	end
 	
@@ -90,6 +93,8 @@ local function Update(self,t)--参数t是秒单位。所以t的值一般都是�
 	end)
 	system:SetScript("OnLeave",function() GameTooltip:Hide() end)
 	]]
+	
 end
 system:SetAllPoints(system_Text)
+
 system:SetScript("OnUpdate",Update)

@@ -4,8 +4,10 @@ local bag = CreateFrame("Frame",nil,UIParent)--frame
 bag:EnableMouse(true)
 local bag_text = bag:CreateFontString(nil,"OVERLAY")
 bag_text:SetFont(unpack(info.Font))
-bag_text:SetPoint(unpack(info.Bag_position))
-info.Frames[1] = bag
+-- bag_text:SetPoint(unpack(info.Bag_position))
+
+info.Frames[1] = bag_text
+-- print(bag_text)
 -- local width,height = bag_text:GetWidth(),bag_text:GetHeight()
 
 local function OnEvent(self, event, ...)
@@ -15,6 +17,8 @@ local function OnEvent(self, event, ...)
 	elseif event == "PLAYER_REGEN_ENABLED" then
 		--print("outfight")
 		info.Bag_gttShow = true
+	elseif event == "PLAYER_LOGIN" then
+		-- print("bag"..bag_text:GetWidth())
 	end
 	--背包空间计算逻辑
 	local free, total, used = 0,0,0
@@ -32,6 +36,7 @@ local function OnEvent(self, event, ...)
 			GameTooltip:ClearAllPoints()
 			GameTooltip:SetPoint(unpack(info.Bag_gttPosition))
 			GameTooltip:ClearLines()
+			GameTooltip:AddLine''
 			GameTooltip:AddLine("背包",0,.6,1)
 			GameTooltip:AddLine("    ")
 			GameTooltip:AddDoubleLine("总计"..":",info.SetColorText(4,total),.6,.8,1,1,1,1)
