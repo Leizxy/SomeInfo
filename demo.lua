@@ -35,10 +35,10 @@ bagFrame:SetScript("OnMouseDown",function(self,button)
 	else
 		ToggleAllBags()
 	end
-end
+end)
+
 --[[
-]]
-end
+
 /run print(select(1,GetSpecializationInfo(GetSpecialization())))
 /run print(GetSpecializationInfo(GetSpecialization()))
 /run print(GetSpecialization())
@@ -46,8 +46,14 @@ end
 /run print(select(2,UnitClass("player")))
 /run print(UnitSelectionColor("player"))
 /run print(GetNumSpecializationsForClassID(select(3,UnitClass("player")))
+
+GetBackpackCurrencyInfo()1,2,3 --行囊上显示的货币
+GetCurrencyInfo(id) -- 根据货币id获取货币信息
+
+
 frame:GetSize() --在update里面获取
 -- /run SetActiveSpecGroup(263)
 -- /run SetSpecialization()
 
+]]
 

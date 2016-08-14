@@ -32,9 +32,10 @@ local function OnEvent(self, event, ...)
 
 	local func = function()
 		if info.Bag_gttShow then
-			GameTooltip:SetOwner(self,"ANCHOR_BOTTOM",0,0)
+			GameTooltip:SetOwner(self,"ANCHOR_BOTTOM",0,-5)
 			GameTooltip:ClearAllPoints()
-			GameTooltip:SetPoint(unpack(info.Bag_gttPosition))
+			-- GameTooltip:SetPoint(unpack(info.Bag_gttPosition))
+			-- GameTooltip:SetPoint("BOTTOM",self,"TOPLEFT",0,5)
 			GameTooltip:ClearLines()
 			GameTooltip:AddLine''
 			GameTooltip:AddLine("背包",0,.6,1)

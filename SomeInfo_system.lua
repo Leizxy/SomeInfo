@@ -31,7 +31,7 @@ local function getMemory()
 	for i = 1, GetNumAddOns() do
 		totalMem = totalMem + GetAddOnMemoryUsage(i)
 	end
-	print(totalMem==gcinfo())
+	-- print(totalMem==gcinfo())
 end
 local function formatMemory(memory)
 	if memory > 999 then

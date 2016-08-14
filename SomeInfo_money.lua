@@ -60,6 +60,15 @@ end
 	TODO
 	将多种货币显示在这儿，好运币，等等，据需求而定。
 ]]
+-- 需要显示的货币list
+local currencyList = {1101,944,824,823,1129,994,241,1166,1191}
+table.sort(currencyList,function(a,b) return a>b end)
+-- for i = 1,#currencyList do
+	-- print(currencyList[i])
+-- end
+-- local function getBackpackCurrency(num)
+	-- GetBackpackCurrencyInfo
+-- end
 
 info.ScriptOfFrame(money,"OnEvent",function()
 	-- print(GOLD_AMOUNT_SYMBOL)
@@ -68,12 +77,49 @@ info.ScriptOfFrame(money,"OnEvent",function()
 	
 	local func = function()
 		if info.Money_gttShow then
-			GameTooltip:SetOwner(money,"ANCHOR_BOTTOM",0,0)
+			GameTooltip:SetOwner(money,"ANCHOR_BOTTOMRIGHT",-money_Text:GetWidth(),-5)
 			GameTooltip:ClearAllPoints()
 			GameTooltip:SetPoint(unpack(info.Money_gttposi))
 			GameTooltip:ClearLines()
+			-- GameTooltip:SetFont("Fonts\\ARHei.ttf",14,"OUTLINE")
 			GameTooltip:AddLine(CURRENCY,0,.6,1)
-			GameTooltip:AddLine("  ")
+			GameTooltip:AddLine' '
+			-- 文字+图标
+			local tb = {}
+			if GetBackpackCurrencyInfo(1) ~= nil then
+				GameTooltip:AddLine'— — — — —  back  — — — — —'
+				for i = 1, GetNumWatchedTokens() do
+					local cname, count, icon, cId = GetBackpackCurrencyInfo(i)
+					tb[i] = cId
+					GameTooltip:AddDoubleLine(cname,count,1,1,1,1,1,1)
+					GameTooltip:AddTexture(icon)
+				end
+				
+			end
+			for i = 1,#currencyList do
+				if currencyList[i] == tb[1] then
+					table.remove(currencyList,i)
+				elseif currencyList[i] == tb[2] then
+					table.remove(currencyList,i)
+				elseif currencyList[i] == tb[3] then
+					table.remove(currencyList,i)
+				end	
+			end
+			-- GameTooltip:AddLine' '
+			GameTooltip:AddLine'— — — — — others — — — — —'
+			
+			for i = 1, #currencyList do
+				local cId = currencyList[i]
+				local cname,count,icon,_,_,_,_,_ = GetCurrencyInfo(cId)
+				if count > 0 then
+					GameTooltip:AddDoubleLine(cname,count,1,1,1,1,1,1)
+					GameTooltip:AddTexture(icon)
+				end
+			end
+			
+			-- GameTooltip:AddLine("  ")
+			
+			-- GameTooltip:AddTexture("Interface\\Icons\\inv_apexis_draenor")
 			GameTooltip:Show()
 			-- GameTooltip:
 			
