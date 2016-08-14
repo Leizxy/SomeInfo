@@ -19,10 +19,11 @@ local textures = {
 local class, classFileName = UnitClass("player")
 local color = RAID_CLASS_COLORS[classFileName]
 -- ChatFrame1:AddMessage(class, color.r, color.g, color.b)
-local red = string.sub(string.format("%#x",color.r*255),3,4)
-local green = string.sub(string.format("%#x",color.g*255),3,4)
-local blue = string.sub(string.format("%#x",color.b*255),3,4)
--- print(red..green..blue)
+local red = color.r*255<16 and "0"..string.sub(string.format("%#x",color.r*255),3,4) or string.sub(string.format("%#x",color.r*255),3,4)
+local green = color.g*255<16 and "0"..string.sub(string.format("%#x",color.g*255),3,4) or string.sub(string.format("%#x",color.g*255),3,4)
+local blue = color.b*255<16 and "0"..string.sub(string.format("%#x",color.b*255),3,4) or string.sub(string.format("%#x",color.b*255),3,4)
+-- print(red..","..green..","..blue..","..string.format("%#x",color.b*255))
+
 local classId = select(3,UnitClass("player"))
 -- print("2nd/Interface\\AddOns\\SomeInfo\\Textures\\demonhunter")
 -- print(textures[classId])
@@ -220,7 +221,7 @@ local function init_frames()
 	-- spec_frame1:Hide()
 	-- spec_frame2:Hide()
 	-- spec_frame3:Hide()
-	hideFrame(spec_frame1,spec_frame2,spec_frame2)
+	hideFrame(spec_frame1,spec_frame2,spec_frame3)
 end
 
 
@@ -305,7 +306,7 @@ class_Frame:SetScript("OnEnter",function()
 	-- print(class_Frame:GetName().." OnEnter :"..tostring(spec_frame1:IsShown()))
 	-- print(class_Frame:GetName().." OnEnter :"..tostring(spec_frame1==nil))
 	-- hideFrame(spec_frame1,spec_frame2,spec_frame2)	
-	showFrame(spec_frame1,spec_frame2,spec_frame2)	
+	showFrame(spec_frame1,spec_frame2,spec_frame3)	
 	-- init_frames()
 end)
 class_Frame:SetScript("OnLeave",function()
