@@ -63,12 +63,7 @@ end
 -- 需要显示的货币list
 local currencyList = {1101,944,824,823,1129,994,241,1166,1191}
 table.sort(currencyList,function(a,b) return a>b end)
--- for i = 1,#currencyList do
-	-- print(currencyList[i])
--- end
--- local function getBackpackCurrency(num)
-	-- GetBackpackCurrencyInfo
--- end
+
 
 info.ScriptOfFrame(money,"OnEvent",function()
 	-- print(GOLD_AMOUNT_SYMBOL)

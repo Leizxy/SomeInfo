@@ -25,6 +25,10 @@ info.Money_gttShow = true
 -- info.Money_position = {"TOP",UIParent,"TOP", 64,-2}
 info.Money_gttposi = {"BOTTOM",self,"TOP",0,5}
 
+-- exp
+info.Experience_ggtShow = true
+info.Experience_ggtposi = {"BOTTOM",self,"TOP",0,5}
+
 --Font
 info.Font = {"Fonts\\ARHei.ttf",13,"OUTLINE"}
 
@@ -52,6 +56,15 @@ info.SetColorText = function(num,str)
 		return str
 	end
 end
+-- 职业颜色
+local info.change_color = function(color)
+	local red = color.r*255<16 and "0"..string.sub(string.format("%#x",color.r*255),3,4) or string.sub(string.format("%#x",color.r*255),3,4)
+	local green = color.g*255<16 and "0"..string.sub(string.format("%#x",color.g*255),3,4) or string.sub(string.format("%#x",color.g*255),3,4)
+	local blue = color.b*255<16 and "0"..string.sub(string.format("%#x",color.b*255),3,4) or string.sub(string.format("%#x",color.b*255),3,4)
+	return "|cff"..red..green..blue
+end
+local color = RAID_CLASS_COLORS[select(2,UnitClass("player"))]
+info.playerClassColor = change_color(color)
 
 
 -- GTT的一些抽取方法

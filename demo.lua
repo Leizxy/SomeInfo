@@ -50,6 +50,11 @@ end)
 GetBackpackCurrencyInfo()1,2,3 --行囊上显示的货币
 GetCurrencyInfo(id) -- 根据货币id获取货币信息
 
+GetSelectedFaction()(number)获取显示在经验条上的声望id
+GetWatchedFactionInfo()获取显示的声望信息
+
+UnitXP("unit")获取当前经验值
+UnitXPMax("unit")经验最大值
 
 frame:GetSize() --在update里面获取
 -- /run SetActiveSpecGroup(263)
