@@ -57,14 +57,14 @@ info.SetColorText = function(num,str)
 	end
 end
 -- 职业颜色
-local info.change_color = function(color)
+info.change_color = function(color)
 	local red = color.r*255<16 and "0"..string.sub(string.format("%#x",color.r*255),3,4) or string.sub(string.format("%#x",color.r*255),3,4)
 	local green = color.g*255<16 and "0"..string.sub(string.format("%#x",color.g*255),3,4) or string.sub(string.format("%#x",color.g*255),3,4)
 	local blue = color.b*255<16 and "0"..string.sub(string.format("%#x",color.b*255),3,4) or string.sub(string.format("%#x",color.b*255),3,4)
 	return "|cff"..red..green..blue
 end
 local color = RAID_CLASS_COLORS[select(2,UnitClass("player"))]
-info.playerClassColor = change_color(color)
+info.playerClassColor = info.change_color(color)
 
 
 -- GTT的一些抽取方法

@@ -8,4 +8,7 @@ SomeInfo.lua
 SomeInfo_bag.lua
 SomeInfo_system.lua
 SomeInfo_money.lua
+SomeInfo_exp.lua
+
+
 SomeInfo_position.lua

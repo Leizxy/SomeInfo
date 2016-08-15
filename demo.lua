@@ -56,6 +56,9 @@ GetWatchedFactionInfo()获取显示的声望信息
 UnitXP("unit")获取当前经验值
 UnitXPMax("unit")经验最大值
 
+UnitGetTotalAbsorbs("player")吸收盾
+UnitGetTotalHealAbsorbs("player")
+
 frame:GetSize() --在update里面获取
 -- /run SetActiveSpecGroup(263)
 -- /run SetSpecialization()

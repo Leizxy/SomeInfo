@@ -70,7 +70,7 @@ local function Update(self,t)--参数t是秒单位。所以t的值一般都是�
 	local func = function()
 		getMemory()
 		if info.System_gttShow then
-			GameTooltip:SetOwner(self,"ANCHOR_BOTTOM",0,0)
+			GameTooltip:SetOwner(self,"ANCHOR_BOTTOM",0,-5)
 			GameTooltip:ClearAllPoints()
 			GameTooltip:SetPoint(unpack(info.System_gttposi))
 			GameTooltip:ClearLines()
