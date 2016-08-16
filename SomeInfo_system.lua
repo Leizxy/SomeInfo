@@ -1,10 +1,12 @@
 local SomeInfo, info = ...
 
-local system = CreateFrame("Frame")
+local system = CreateFrame("Frame",nil,UIParent)
 system:EnableMouse(true)
 local system_Text = system:CreateFontString(nil,"OVERLAY")
 system_Text:SetFont(unpack(info.Font))
-system_Text:SetPoint(unpack(info.System_position))
+-- system_Text:SetPoint(unpack(info.System_position))
+info.Frames[system] = system_Text
+
 
 local function setColor(arg)
 	if arg < 300 then
@@ -29,7 +31,7 @@ local function getMemory()
 	for i = 1, GetNumAddOns() do
 		totalMem = totalMem + GetAddOnMemoryUsage(i)
 	end
-	print(totalMem==gcinfo())
+	-- print(totalMem==gcinfo())
 end
 local function formatMemory(memory)
 	if memory > 999 then
@@ -60,6 +62,7 @@ local function Update(self,t)--参数t是秒单位。所以t的值一般都是�
 			fps = "|cffD80909"..floor(GetFramerate())
 		end
 		step = 1
+		-- print(system_Text:GetSize())
 		system_Text:SetText(fps.."|rFps "..ms.."|rMs")
 	end
 	
@@ -67,7 +70,7 @@ local function Update(self,t)--参数t是秒单位。所以t的值一般都是�
 	local func = function()
 		getMemory()
 		if info.System_gttShow then
-			GameTooltip:SetOwner(self,"ANCHOR_BOTTOM",0,0)
+			GameTooltip:SetOwner(self,"ANCHOR_BOTTOM",0,-5)
 			GameTooltip:ClearAllPoints()
 			GameTooltip:SetPoint(unpack(info.System_gttposi))
 			GameTooltip:ClearLines()
@@ -90,6 +93,8 @@ local function Update(self,t)--参数t是秒单位。所以t的值一般都是�
 	end)
 	system:SetScript("OnLeave",function() GameTooltip:Hide() end)
 	]]
+	
 end
 system:SetAllPoints(system_Text)
+
 system:SetScript("OnUpdate",Update)

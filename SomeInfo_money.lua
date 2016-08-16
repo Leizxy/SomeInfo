@@ -1,13 +1,18 @@
 local SomeInfo, info = ...
 
-local money = CreateFrame("Frame")
+local money = CreateFrame("Frame",nil,UIParent)
 money:EnableMouse(true)
 local money_Text = money:CreateFontString(nil,"OVERLAY")
 money_Text:SetFont(unpack(info.Font))
-money_Text:SetPoint(unpack(info.Money_position))
+-- money_Text:SetPoint(unpack(info.Money_position))
 money:SetAllPoints(money_Text)
-
-local gold_frame = CreateFrame("Frame")
+-- print(money)
+-- print(money_Text)
+-- print(info.Frames)
+info.Frames[money] = money_Text
+-- print(info.Frames[1])
+-- info.Frames[1]:Hide()
+local gold_frame = CreateFrame("Frame",nil,UIParent)
 gold_frame:SetWidth(15)
 gold_frame:SetHeight(15)
 gold_frame:SetScale(.8)
@@ -55,6 +60,10 @@ end
 	TODO
 	将多种货币显示在这儿，好运币，等等，据需求而定。
 ]]
+-- 需要显示的货币list
+local currencyList = {1101,944,824,823,1129,994,241,1166,1191}
+table.sort(currencyList,function(a,b) return a>b end)
+
 
 info.ScriptOfFrame(money,"OnEvent",function()
 	-- print(GOLD_AMOUNT_SYMBOL)
@@ -63,21 +72,58 @@ info.ScriptOfFrame(money,"OnEvent",function()
 	
 	local func = function()
 		if info.Money_gttShow then
-			GameTooltip:SetOwner(self,"ANCHOR_BOTTOM",0,0)
+			GameTooltip:SetOwner(money,"ANCHOR_BOTTOMRIGHT",-money_Text:GetWidth(),-5)
 			GameTooltip:ClearAllPoints()
 			GameTooltip:SetPoint(unpack(info.Money_gttposi))
 			GameTooltip:ClearLines()
+			-- GameTooltip:SetFont("Fonts\\ARHei.ttf",14,"OUTLINE")
 			GameTooltip:AddLine(CURRENCY,0,.6,1)
-			GameTooltip:AddLine("  ")
-			GameTooltip:Show()
-			-- GameTooltip:
+			GameTooltip:AddLine' '
+			-- 文字+图标
+			local tb = {}
+			if GetBackpackCurrencyInfo(1) ~= nil then
+				GameTooltip:AddLine'— — — — —  back  — — — — —'
+				for i = 1, GetNumWatchedTokens() do
+					local cname, count, icon, cId = GetBackpackCurrencyInfo(i)
+					tb[i] = cId
+					GameTooltip:AddDoubleLine(cname,count,1,1,1,1,1,1)
+					GameTooltip:AddTexture(icon)
+				end
+				
+			end
+			for i = 1,#currencyList do
+				if currencyList[i] == tb[1] then
+					table.remove(currencyList,i)
+				elseif currencyList[i] == tb[2] then
+					table.remove(currencyList,i)
+				elseif currencyList[i] == tb[3] then
+					table.remove(currencyList,i)
+				end	
+			end
+			-- GameTooltip:AddLine' '
+			GameTooltip:AddLine'— — — — — others — — — — —'
 			
+			for i = 1, #currencyList do
+				local cId = currencyList[i]
+				local cname,count,icon,_,_,_,_,_ = GetCurrencyInfo(cId)
+				if count > 0 then
+					GameTooltip:AddDoubleLine(cname,count,1,1,1,1,1,1)
+					GameTooltip:AddTexture(icon)
+				end
+			end
+			GameTooltip:Show()
 		end
 	end
 	info.ShowGameToolTip(money,func)
-	
 end)
-
+info.ScriptOfFrame(money,"OnMouseDown",function(self,button)
+	if info.Experience_ggtShow then
+		if button == "RightButton" then
+		else
+			ToggleCharacter("TokenFrame")
+		end
+	end
+end)
 
 money:RegisterEvent("PLAYER_LOGIN")
 money:RegisterEvent("PLAYER_MONEY")
