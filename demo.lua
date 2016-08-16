@@ -59,9 +59,13 @@ UnitXPMax("unit")经验最大值
 UnitGetTotalAbsorbs("player")吸收盾
 UnitGetTotalHealAbsorbs("player")
 
+GetCVarInfo("scriptProfile")
+
 frame:GetSize() --在update里面获取
 -- /run SetActiveSpecGroup(263)
 -- /run SetSpecialization()
+
+_G["FACTION_STANDING_LABEL".."1"]
 
 ]]
 

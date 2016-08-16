@@ -9,7 +9,7 @@ money:SetAllPoints(money_Text)
 -- print(money)
 -- print(money_Text)
 -- print(info.Frames)
-info.Frames[3] = money_Text
+info.Frames[money] = money_Text
 -- print(info.Frames[1])
 -- info.Frames[1]:Hide()
 local gold_frame = CreateFrame("Frame",nil,UIParent)
@@ -111,19 +111,19 @@ info.ScriptOfFrame(money,"OnEvent",function()
 					GameTooltip:AddTexture(icon)
 				end
 			end
-			
-			-- GameTooltip:AddLine("  ")
-			
-			-- GameTooltip:AddTexture("Interface\\Icons\\inv_apexis_draenor")
 			GameTooltip:Show()
-			-- GameTooltip:
-			
 		end
 	end
 	info.ShowGameToolTip(money,func)
-	
 end)
-
+info.ScriptOfFrame(money,"OnMouseDown",function(self,button)
+	if info.Experience_ggtShow then
+		if button == "RightButton" then
+		else
+			ToggleCharacter("TokenFrame")
+		end
+	end
+end)
 
 money:RegisterEvent("PLAYER_LOGIN")
 money:RegisterEvent("PLAYER_MONEY")
