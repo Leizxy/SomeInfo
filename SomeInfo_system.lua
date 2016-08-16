@@ -5,7 +5,7 @@ system:EnableMouse(true)
 local system_Text = system:CreateFontString(nil,"OVERLAY")
 system_Text:SetFont(unpack(info.Font))
 -- system_Text:SetPoint(unpack(info.System_position))
-info.Frames[system] = system_Text
+info.Frames["system"] = system_Text
 
 
 local function setColor(arg)

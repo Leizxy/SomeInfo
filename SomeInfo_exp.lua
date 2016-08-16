@@ -5,12 +5,12 @@ experience:EnableMouse(true)
 local experience_Text = experience:CreateFontString(nil,"OVERLAY")
 experience_Text:SetFont(unpack(info.Font))
 experience:SetAllPoints(experience_Text)
-info.Frames[experience] = experience_Text
+info.Frames["experience"] = experience_Text
 
 info.ScriptOfFrame(experience, "OnEvent", function()
 	local currentExp = UnitXP("player")
 	local maxExp = UnitXPMax("player")
-	local percentExp = tonumber(string.format("%.3f",currentExp / maxExp)) *100
+	local percentExp = tonumber(string.format("%.3f",currentExp / (maxExp == 0 and 1 or maxExp))) *100
 	
 	local fName,fStandingID,minRep,maxRep,currentRep = GetWatchedFactionInfo()
 	-- if 
