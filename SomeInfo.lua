@@ -1,6 +1,6 @@
 --setfenv(1, setmetatable(select(2, ...), { __index = function(self,  key) local v = _G[key]; rawset(self, key, v); return v end })) 
 local SomeInfo, info = ...
-
+-- local chatFrame1 = _G["ChatFrame1"]
 
 --print(SomeInfo.." is Loaded")
 --提供一些插件的变量
