@@ -60,6 +60,7 @@ UnitGetTotalAbsorbs("player")吸收盾
 UnitGetTotalHealAbsorbs("player")
 
 GetCVarInfo("scriptProfile")
+UseEquipmentSet("heal")--换装方案
 
 frame:GetSize() --在update里面获取
 -- /run SetActiveSpecGroup(263)
