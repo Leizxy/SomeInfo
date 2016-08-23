@@ -42,7 +42,13 @@ local function formatTextMoney(money)
 	if gold < 1000 then
 		return gold
 	elseif gold >= 1000 and gold <1000000 then
-		return floor(gold/1000)..","..mod(gold,1000)
+		local temp = mod(gold,1000)
+		if temp < 100 and temp >= 10 then
+			temp = "0"..temp
+		elseif temp < 10 then
+			temp = "00"..temp
+		end
+		return floor(gold/1000)..","..temp
 	else
 		return floor(gold/1000000).."M"
 	end
