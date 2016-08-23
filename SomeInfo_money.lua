@@ -9,7 +9,7 @@ money:SetAllPoints(money_Text)
 -- print(money)
 -- print(money_Text)
 -- print(info.Frames)
-info.Frames[money] = money_Text
+info.Frames["money"] = money_Text
 -- print(info.Frames[1])
 -- info.Frames[1]:Hide()
 local gold_frame = CreateFrame("Frame",nil,UIParent)

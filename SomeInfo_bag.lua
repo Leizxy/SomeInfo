@@ -6,7 +6,8 @@ local bag_text = bag:CreateFontString(nil,"OVERLAY")
 bag_text:SetFont(unpack(info.Font))
 -- bag_text:SetPoint(unpack(info.Bag_position))
 
-info.Frames[bag] = bag_text
+info.Frames["bag"] = bag_text
+
 -- print(bag_text)
 -- local width,height = bag_text:GetWidth(),bag_text:GetHeight()
 

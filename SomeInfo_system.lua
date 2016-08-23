@@ -5,7 +5,7 @@ system:EnableMouse(true)
 local system_Text = system:CreateFontString(nil,"OVERLAY")
 system_Text:SetFont(unpack(info.Font))
 -- system_Text:SetPoint(unpack(info.System_position))
-info.Frames[system] = system_Text
+info.Frames["system"] = system_Text
 
 
 local function setColor(arg)
@@ -25,13 +25,13 @@ end
 	
 	TODO：添加各插件内存和CPU占用（据需求而定吧）
 ]]
-local totalMem = 0
-local function getMemory()
+
+local function getMemory(totalMem)
 	UpdateAddOnMemoryUsage()
 	for i = 1, GetNumAddOns() do
 		totalMem = totalMem + GetAddOnMemoryUsage(i)
 	end
-	-- print(totalMem==gcinfo())
+	return totalMem
 end
 local function formatMemory(memory)
 	if memory > 999 then
@@ -43,11 +43,12 @@ local function formatMemory(memory)
 	end
 end
 
-
+-- print(for)
 
 local step = 1
 local function Update(self,t)--参数t是秒单位。所以t的值一般都是几ms
 	-- 帧数和延迟
+	local totalMem = 0
 	step = step - t 
 	local fps = ""
 	local ms = ""
@@ -68,8 +69,9 @@ local function Update(self,t)--参数t是秒单位。所以t的值一般都是�
 	
 	-- GameTooltip
 	local func = function()
-		getMemory()
+		-- getMemory()
 		if info.System_gttShow then
+			totalMem = getMemory(totalMem)
 			GameTooltip:SetOwner(self,"ANCHOR_BOTTOM",0,-5)
 			GameTooltip:ClearAllPoints()
 			GameTooltip:SetPoint(unpack(info.System_gttposi))
