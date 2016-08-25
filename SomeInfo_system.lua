@@ -26,17 +26,26 @@ end
 	TODO：添加各插件内存和CPU占用（据需求而定吧）
 ]]
 
-local function getMemory(totalMem)
+local function getAddonsInformation()
 	UpdateAddOnMemoryUsage()
+	local totalMem = 0
+	local totalAddOns = 0
+	local loadedAddons = {}
 	for i = 1, GetNumAddOns() do
-		totalMem = totalMem + GetAddOnMemoryUsage(i)
+		if IsAddOnLoaded(i) then
+			tinsert(loadedAddons,{select(2,GetAddOnInfo(i)),GetAddOnMemoryUsage(i)})
+			totalMem = totalMem + GetAddOnMemoryUsage(i)
+			totalAddOns = totalAddOns + 1
+		end
 	end
-	return totalMem
+
+	return totalMem,totalAddOns,loadedAddons
 end
+
 local function formatMemory(memory)
 	if memory > 999 then
 		local mem = memory/1024
-		return string.format("%.1fmb",mem)
+		return string.format("%.2fmb",mem)
 	else
 		local mem = floor(memory)
 		return mem.."kb"
@@ -44,11 +53,34 @@ local function formatMemory(memory)
 end
 
 -- print(for)
+local func = function(self)
+	-- getMemory()
+	print("func")
+	if info.System_gttShow then
+		local totalMem,totalAddOns,loadedAddons = getAddonsInformation()
+		sort(loadedAddons,function(a,b)
+			if a and b then
+				return a[2] > b[2]
+			end
+		end)
+		GameTooltip:SetOwner(system,"ANCHOR_BOTTOM",0,-5)
+		GameTooltip:ClearAllPoints()
+		GameTooltip:SetPoint(unpack(info.System_gttposi))
+		GameTooltip:ClearLines()
+		GameTooltip:AddDoubleLine(format("%s("..info.SetColorText(4,totalAddOns).."):",ADDONS),formatMemory(totalMem),1,1,1,1,1,1)
+		GameTooltip:AddLine' '
+		for i = 1, #loadedAddons do
+			GameTooltip:AddDoubleLine(loadedAddons[i][1],formatMemory(loadedAddons[i][2]),1,1,1,1,1,1)
+		end
+		-- GameTooltip:Show()
+	end
+	
+end
 
-local step = 1
+local step = 0.8
 local function Update(self,t)--参数t是秒单位。所以t的值一般都是几ms
 	-- 帧数和延迟
-	local totalMem = 0
+		-- GameTooltip
 	step = step - t 
 	local fps = ""
 	local ms = ""
@@ -65,38 +97,13 @@ local function Update(self,t)--参数t是秒单位。所以t的值一般都是�
 		step = 1
 		-- print(system_Text:GetSize())
 		system_Text:SetText(fps.."|rFps "..ms.."|rMs")
-	end
-	
-	-- GameTooltip
-	local func = function()
-		-- getMemory()
-		if info.System_gttShow then
-			totalMem = getMemory(totalMem)
-			GameTooltip:SetOwner(self,"ANCHOR_BOTTOM",0,-5)
-			GameTooltip:ClearAllPoints()
-			GameTooltip:SetPoint(unpack(info.System_gttposi))
-			GameTooltip:ClearLines()
-			GameTooltip:AddDoubleLine(format("%s:",ADDONS),formatMemory(totalMem),1,1,1,1,1,1)
-			-- GameTooltip:AddLine(ms.."MS",1,1,1)
-			-- GameTooltip:AddLine("待定",1,1,1)
-			GameTooltip:Show()
-		end
-	end
-	info.ShowGameToolTip(system,func)
-	--[[
-	system:SetScript("OnEnter",function()
-		GameTooltip:SetOwner(self,"ANCHOR_BOTTOM",0,0)
-		GameTooltip:ClearAllPoints()
-		GameTooltip:SetPoint(unpack(info.System_gttposi))
-		GameTooltip:ClearLines()
-		GameTooltip:AddLine(ms.."MS",1,1,1)
-		GameTooltip:AddLine("待定",1,1,1)
-		GameTooltip:Show()
-	end)
-	system:SetScript("OnLeave",function() GameTooltip:Hide() end)
-	]]
-	
+		-- func(system)
+	end	
 end
+
+info.ShowGameToolTip(system,func)
+
 system:SetAllPoints(system_Text)
 
 system:SetScript("OnUpdate",Update)
+Update(system,20)
