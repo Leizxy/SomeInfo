@@ -52,27 +52,38 @@ local function formatMemory(memory)
 	end
 end
 
--- print(for)
+
 local func = function(self)
-	-- getMemory()
-	print("func")
 	if info.System_gttShow then
 		local totalMem,totalAddOns,loadedAddons = getAddonsInformation()
+		local maxAddons = 5
 		sort(loadedAddons,function(a,b)
 			if a and b then
 				return a[2] > b[2]
 			end
 		end)
-		GameTooltip:SetOwner(system,"ANCHOR_BOTTOM",0,-5)
+		GameTooltip:SetOwner(self,"ANCHOR_BOTTOM",0,-5)
 		GameTooltip:ClearAllPoints()
 		GameTooltip:SetPoint(unpack(info.System_gttposi))
 		GameTooltip:ClearLines()
 		GameTooltip:AddDoubleLine(format("%s("..info.SetColorText(4,totalAddOns).."):",ADDONS),formatMemory(totalMem),1,1,1,1,1,1)
 		GameTooltip:AddLine' '
-		for i = 1, #loadedAddons do
-			GameTooltip:AddDoubleLine(loadedAddons[i][1],formatMemory(loadedAddons[i][2]),1,1,1,1,1,1)
+		if IsShiftKeyDown() then
+			maxAddons = #loadedAddons
+		else
+			maxAddons = math.min(maxAddons, #loadedAddons)
 		end
-		-- GameTooltip:Show()
+		-- color
+		for i = 1, maxAddons do
+			local color = loadedAddons[i][2] <= 102.4 and {0,1} -- 0 - 100
+			or loadedAddons[i][2] <= 512 and {0.75,1} -- 100 - 512
+			or loadedAddons[i][2] <= 1024 and {1,1} -- 512 - 1mb
+			or loadedAddons[i][2] <= 2560 and {1,0.75} -- 1mb - 2.5mb
+			or loadedAddons[i][2] <= 5120 and {1,0.5} -- 2.5mb - 5mb
+			or {1,0.1} -- 5mb +
+			GameTooltip:AddDoubleLine(loadedAddons[i][1], formatMemory(loadedAddons[i][2]), 1, 1, 1, color[1], color[2], 0)						
+		end
+		GameTooltip:Show()
 	end
 	
 end
@@ -97,7 +108,9 @@ local function Update(self,t)--参数t是秒单位。所以t的值一般都是�
 		step = 1
 		-- print(system_Text:GetSize())
 		system_Text:SetText(fps.."|rFps "..ms.."|rMs")
-		-- func(system)
+		if self:IsMouseOver() then
+			func(system)
+		end
 	end	
 end
 
@@ -106,4 +119,21 @@ info.ShowGameToolTip(system,func)
 system:SetAllPoints(system_Text)
 
 system:SetScript("OnUpdate",Update)
-Update(system,20)
+info.ScriptOfFrame(system,"OnMouseDown",function(self,button)
+	if button == "LeftButton" then
+		-- 内存清理
+		
+		local before = gcinfo()
+		collectgarbage("collect")
+		
+		print(format("|cff66C6FF%s:|r %s","清理了",formatMemory(before - gcinfo())))
+	else		
+	end
+end)
+info.ScriptOfFrame(system,"OnEvent",function(self,event)
+	
+	collectgarbage("collect")
+	
+end)
+system:RegisterEvent("PLAYER_REGEN_ENABLED")
+-- Update(system,20)

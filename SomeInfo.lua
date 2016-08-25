@@ -73,8 +73,22 @@ info.ShowGameToolTip = function(...)
 	local func = select(2,...)
 	frame:SetScript("OnEnter",function()
 		--info.GameTooltip = function() end
+		-- print(frame:GetBottom())
+		
+		GameTooltip:SetPoint("BOTTOM",frame,"TOP")
 		func(frame)
 		GameTooltip:Show()
+		-- if(GameTooltip:IsShown()) then
+			-- local step = 0.8
+			-- GameTooltip:SetScript("OnUpdate",function(self,t)
+				-- print("update")
+				-- step = step - t
+				-- if step < 0 then
+					-- func(frame)
+					-- step = 1
+				-- end 
+			-- end)
+		-- end
 		-- func(frame)
 	end)
 	frame:SetScript("OnLeave",function() GameTooltip:Hide() end)

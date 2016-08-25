@@ -45,7 +45,6 @@ local function OnEvent(self, event, ...)
 			GameTooltip:AddDoubleLine("使用"..":",info.SetColorText(4,used),.6,.8,1,1,1,1)
 			GameTooltip:AddDoubleLine("")
 			GameTooltip:Show()
-			
 		end
 	end
 	info.ShowGameToolTip(bag,func)
