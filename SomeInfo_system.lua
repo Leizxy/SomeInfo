@@ -7,6 +7,7 @@ system_Text:SetFont(unpack(info.Font))
 -- system_Text:SetPoint(unpack(info.System_position))
 info.Frames["system"] = system_Text
 
+local step = 0.5 -- update间隔
 
 local function setColor(arg)
 	if arg < 300 then
@@ -26,20 +27,25 @@ end
 	TODO：添加各插件内存和CPU占用（据需求而定吧）
 ]]
 
+
+
 local function getAddonsInformation()
 	UpdateAddOnMemoryUsage()
+	UpdateAddOnCPUUsage()
 	local totalMem = 0
 	local totalAddOns = 0
+	local totalCPU = 0
 	local loadedAddons = {}
 	for i = 1, GetNumAddOns() do
 		if IsAddOnLoaded(i) then
-			tinsert(loadedAddons,{select(2,GetAddOnInfo(i)),GetAddOnMemoryUsage(i)})
+			tinsert(loadedAddons,{select(2,GetAddOnInfo(i)),GetAddOnMemoryUsage(i),GetAddOnCPUUsage(i)})
 			totalMem = totalMem + GetAddOnMemoryUsage(i)
+			totalCPU = totalCPU + GetAddOnCPUUsage(i)
 			totalAddOns = totalAddOns + 1
 		end
 	end
 
-	return totalMem,totalAddOns,loadedAddons
+	return totalMem,totalCPU,totalAddOns,loadedAddons
 end
 
 local function formatMemory(memory)
@@ -55,7 +61,7 @@ end
 
 local func = function(self)
 	if info.System_gttShow then
-		local totalMem,totalAddOns,loadedAddons = getAddonsInformation()
+		local totalMem,totalCPU,totalAddOns,loadedAddons = getAddonsInformation()
 		local maxAddons = 5
 		sort(loadedAddons,function(a,b)
 			if a and b then
@@ -69,7 +75,9 @@ local func = function(self)
 		GameTooltip:AddDoubleLine(format("%s("..info.SetColorText(4,totalAddOns).."):",ADDONS),formatMemory(totalMem),1,1,1,1,1,1)
 		GameTooltip:AddLine' '
 		if IsShiftKeyDown() then
+			-- step = 0
 			maxAddons = #loadedAddons
+			-- Update(self,20)
 		else
 			maxAddons = math.min(maxAddons, #loadedAddons)
 		end
@@ -88,7 +96,7 @@ local func = function(self)
 	
 end
 
-local step = 0.8
+
 local function Update(self,t)--参数t是秒单位。所以t的值一般都是几ms
 	-- 帧数和延迟
 		-- GameTooltip
@@ -111,6 +119,7 @@ local function Update(self,t)--参数t是秒单位。所以t的值一般都是�
 		if self:IsMouseOver() then
 			func(system)
 		end
+		
 	end	
 end
 

@@ -111,7 +111,8 @@ local function addClickScript(frame,i,currentSpec,totalSpec)
 					hideFrame(class_Frame,spec_frame1,spec_frame2)
 				end
 			end
-			print("正在切换到|cff"..red..green..blue..select(2,GetSpecializationInfo(i)).."|r专精")
+			-- print("正在切换到|cff"..red..green..blue..select(2,GetSpecializationInfo(i)).."|r专精")
+			print("正在切换到|c"..RAID_CLASS_COLORS[select(2,UnitClass("player"))].colorStr..select(2,GetSpecializationInfo(i)).."|r专精")
 			-- ChatFrame1:AddMessage("正在切换到"..select(2,GetSpecializationInfo(i)).."专精", color.r, color.g, color.b)
 			countDownStart = true
 		else
