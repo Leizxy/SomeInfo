@@ -23,8 +23,6 @@ end
 	UpdateAddOnMemoryUsage() // 扫描每个插件并更新他们各自使用的内存
 	GetNumAddOns() // 获取加载了多少个插件
 	GetAddOnMemoryUsage(int) // 获取某个插件所使用的内存
-	
-	TODO：添加各插件内存和CPU占用（据需求而定吧）
 ]]
 
 

@@ -14,5 +14,6 @@ SomeInfo_system.lua
 SomeInfo_money.lua
 SomeInfo_exp.lua
 
+SomeInfo_coords.lua
 
 SomeInfo_position.lua
