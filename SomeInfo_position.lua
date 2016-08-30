@@ -1,11 +1,11 @@
 local SomeInfo, info = ...
 
 local SPACE = 8
-local boder = CreateFrame("Frame",nil,UIParent)
-boder:SetSize(20,20)
-boder:SetBackdrop({bgFile="Interface\\Buttons\\WHITE8X8", edgeFile="Interface\\Buttons\\WHITE8X8", tile = false, edgeSize=2})
-boder:SetBackdropColor(0,0,0,1)
-boder:SetPoint("TOP",info.Frames["system"],"BOTTOM",0,-2)
+local border = CreateFrame("Frame",nil,UIParent)
+border:SetSize(20,20)
+border:SetBackdrop({bgFile="Interface\\Buttons\\WHITE8X8", edgeFile="Interface\\Buttons\\WHITE8X8", tile = false, edgeSize=2})
+border:SetBackdropColor(0,0,0,1)
+border:SetPoint("TOP",info.Frames["system"],"BOTTOM",0,-2)
 
 info.Frames["system"]:SetPoint("TOP",UIParent,"TOP", 0,-4)
 
@@ -42,7 +42,7 @@ local index = 1
 local r,g,b = 0,0,0
 
 local function breathcolor(step)
-	while index <= #COLOR do 
+	-- while index <= #COLOR do 
 		r = r < COLOR[index][1] and 
 			((r + step) <= COLOR[index][1] and (r + step) or COLOR[index][1]) or
 			((r - step) >= COLOR[index][1] and (r - step) or COLOR[index][1])
@@ -56,11 +56,13 @@ local function breathcolor(step)
 		if r == COLOR[index][1] and g == COLOR[index][2] and b == COLOR[index][3] then
 			index = index == #COLOR and 1 or index + 1
 		end
-	end
+	-- end
 end
 
-boder:SetScript("OnUpdate",function(self,t)
-	breathcolor(t/4)
-	boder:SetBackdropColor(r,g,b,1)
+border:SetScript("OnUpdate",function(self,t)
+	local step = t/3
+	breathcolor(step)
+	
+	border:SetBackdropBorderColor(r,g,b,1)
 end)
 

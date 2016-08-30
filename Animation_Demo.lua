@@ -4,11 +4,11 @@ local AddonName = ...
 local frame = CreateFrame("Frame","frame",UIParent)
 frame:SetSize(40,20)
 frame:SetPoint("CENTER",UIParent,"LEFT",500,0)
-frame:SetBackdrop({bgFile="", edgeFile="Interface\\Buttons\\WHITE8X8", tile = false, edgeSize=1})
+-- frame:SetBackdrop({bgFile="", edgeFile="Interface\\Buttons\\WHITE8X8", tile = false, edgeSize=1})
 -- frame:SetBackdropColor(.5,.5,.5,.5)
-frame:SetBackdropBorderColor(1,1,1,.8)
+-- frame:SetBackdropBorderColor(1,1,1,.8)
 frame.texture = frame:CreateTexture(nil,"ARTWORK")
-frame.texture:SetTexture("Interface\\AddOns\\"..AddonName.."\\test1")
+frame.texture:SetTexture("Interface\\AddOns\\"..AddonName.."\\test")
 frame.texture:SetAllPoints(frame)
 
 
