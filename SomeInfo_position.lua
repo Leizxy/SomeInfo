@@ -66,3 +66,4 @@ border:SetScript("OnUpdate",function(self,t)
 	border:SetBackdropBorderColor(r,g,b,1)
 end)
 
+border:Hide()
