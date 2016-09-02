@@ -7,17 +7,25 @@ border:SetBackdrop({bgFile="Interface\\Buttons\\WHITE8X8", edgeFile="Interface\\
 border:SetBackdropColor(0,0,0,1)
 border:SetPoint("TOP",info.Frames["system"],"BOTTOM",0,-2)
 
-info.Frames["system"]:SetPoint("TOP",UIParent,"TOP", 0,-4)
-
 ------------
 --	[coords][exp][system][bag][money]
 ------------
-
+if _G["OrderHallCommandBar"]:IsShown() then
+	info.Frames["system"]:SetPoint("TOP",OrderHallCommandBar,"BOTTOM", 0,-4)
+else
+	info.Frames["system"]:SetPoint("TOP",UIParent,"TOP", 0,-4)
+end
 info.Frames["bag"]:SetPoint("LEFT",info.Frames["system"], "RIGHT",SPACE,0)
 info.Frames["money"]:SetPoint("LEFT",info.Frames["bag"], "RIGHT",SPACE,0)
 info.Frames["experience"]:SetPoint("RIGHT",info.Frames["system"], "LEFT",-SPACE,0)
 info.Frames["coords"]:SetPoint("RIGHT",info.Frames["experience"], "LEFT",-SPACE,0)
-
+-- *************************************************
+-- ****				公会界面优化				****
+-- *************************************************
+local allMembers = select(3,GetNumGuildMembers())
+for i, #allMembers do
+	_G["GuildRosterContainerButton"..i.."String1"]:SetWidth(30)
+end
 
 --[[	breathcolor   ]]
 
@@ -55,6 +63,7 @@ local function breathcolor(step)
 	
 		if r == COLOR[index][1] and g == COLOR[index][2] and b == COLOR[index][3] then
 			index = index == #COLOR and 1 or index + 1
+			-- 
 		end
 	-- end
 end
