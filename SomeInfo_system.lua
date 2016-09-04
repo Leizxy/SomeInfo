@@ -147,10 +147,8 @@ info.ScriptOfFrame(system,"OnEvent",function(self,event)
 		-- local allMembers = select(3,GetNumGuildMembers())
 		-- print(allMembers)
 		-- if _G["GuildRosterFrame"] ~= nil then
-			-- for i = 1, 15 do
-				-- _G["GuildRosterContainerButton1String1"]:SetWidth(30)
-				-- _G["GuildRosterContainerButton"..i.."String1"]:SetWidth(30)
-			-- end
+			-- /run _G["GuildRosterContainerButton1String1"]:SetWidth(30)
+			-- /run for i = 1, 15 do _G["GuildRosterContainerButton"..i.."String1"]:SetWidth(30) end
 		-- end
 		-- print("GUILD_ROSTER_UPDATE")
 	end
