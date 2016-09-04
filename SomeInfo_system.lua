@@ -140,7 +140,22 @@ end)
 info.ScriptOfFrame(system,"OnEvent",function(self,event)
 	
 	collectgarbage("collect")
+	if event == "GUILD_ROSTER_UPDATE" then
+		-- *************************************************
+		-- ****				公会界面优化				****
+		-- *************************************************
+		-- local allMembers = select(3,GetNumGuildMembers())
+		-- print(allMembers)
+		-- if _G["GuildRosterFrame"] ~= nil then
+			-- for i = 1, 15 do
+				-- _G["GuildRosterContainerButton1String1"]:SetWidth(30)
+				-- _G["GuildRosterContainerButton"..i.."String1"]:SetWidth(30)
+			-- end
+		-- end
+		-- print("GUILD_ROSTER_UPDATE")
+	end
 	
 end)
 system:RegisterEvent("PLAYER_REGEN_ENABLED")
+system:RegisterEvent("GUILD_ROSTER_UPDATE")
 -- Update(system,20)

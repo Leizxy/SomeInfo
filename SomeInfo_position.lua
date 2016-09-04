@@ -10,22 +10,20 @@ border:SetPoint("TOP",info.Frames["system"],"BOTTOM",0,-2)
 ------------
 --	[coords][exp][system][bag][money]
 ------------
-if _G["OrderHallCommandBar"]:IsShown() then
-	info.Frames["system"]:SetPoint("TOP",OrderHallCommandBar,"BOTTOM", 0,-4)
-else
-	info.Frames["system"]:SetPoint("TOP",UIParent,"TOP", 0,-4)
+local OHCB = _G["OrderHallCommandBar"]
+if OHCB~=nil then
+	print("OHCB"..isshown)
 end
+-- if _G["OrderHallCommandBar"]:IsShown() then
+	-- info.Frames["system"]:SetPoint("TOP",OrderHallCommandBar,"BOTTOM", 0,-4)
+-- else
+-- end
+-- info.Frames["system"]:SetPoint("TOP",_G["OrderHallCommandBar"] == nil and UIParent or _G["OrderHallCommandBar"],"TOP", 0,-4)
+info.Frames["system"]:SetPoint("TOP", UIParent,"TOP", 0,-4)
 info.Frames["bag"]:SetPoint("LEFT",info.Frames["system"], "RIGHT",SPACE,0)
 info.Frames["money"]:SetPoint("LEFT",info.Frames["bag"], "RIGHT",SPACE,0)
 info.Frames["experience"]:SetPoint("RIGHT",info.Frames["system"], "LEFT",-SPACE,0)
 info.Frames["coords"]:SetPoint("RIGHT",info.Frames["experience"], "LEFT",-SPACE,0)
--- *************************************************
--- ****				公会界面优化				****
--- *************************************************
-local allMembers = select(3,GetNumGuildMembers())
-for i, #allMembers do
-	_G["GuildRosterContainerButton"..i.."String1"]:SetWidth(30)
-end
 
 --[[	breathcolor   ]]
 

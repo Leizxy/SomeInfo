@@ -10,14 +10,14 @@ info.Frames["experience"] = experience_Text
 -- artifact func
 local function getArtifactXP(pointsSpent, artifactXP)
 	local numPoints = 0;
-	local xpForNextPoint = C_ArtifactUI.GetCostForPointAtRank(pointsSpent);
+	-- local xpForNextPoint = C_ArtifactUI.GetCostForPointAtRank(pointsSpent);
 	while artifactXP >= xpForNextPoint and xpForNextPoint > 0 do
 		artifactXP = artifactXP - xpForNextPoint;
 
 		pointsSpent = pointsSpent + 1;
 		numPoints = numPoints + 1;
 
-		xpForNextPoint = C_ArtifactUI.GetCostForPointAtRank(pointsSpent);
+		-- xpForNextPoint = C_ArtifactUI.GetCostForPointAtRank(pointsSpent);
 	end
 	return numPoints, artifactXP, xpForNextPoint;
 end
@@ -33,8 +33,9 @@ info.ScriptOfFrame(experience, "OnEvent", function()
 	--***********ARTIFACT***********(暂时与经验放一起)
 	--	pointsSpent	花费的神器点数
 	--	totalXP		获得的总神器能量
-	local itemID, altItemID, name, icon, totalXP, pointsSpent, quality, artifactAppearanceID, appearanceModID, itemAppearanceID, altItemAppearanceID, altOnTop = C_ArtifactUI.GetEquippedArtifactInfo();
-	local numPointsAvailableToSpend, xp, xpForNext = getArtifactXP(pointsSpent,totalXP)
+	-- local itemID, altItemID, name, icon, totalXP, pointsSpent, quality, artifactAppearanceID, appearanceModID, itemAppearanceID, altItemAppearanceID, altOnTop = C_ArtifactUI.GetEquippedArtifactInfo();
+	local numPointsAvailableToSpend, xp, xpForNext = 0,0,0
+	-- getArtifactXP(pointsSpent,totalXP)
 	
 	experience_Text:SetText(percentExp.."%"..info.SetColorText(4,"xp")..";("..
 	(numPointsAvailableToSpend ~= 0 and info.SetColorText(4,numPointsAvailableToSpend..",") or "")..
