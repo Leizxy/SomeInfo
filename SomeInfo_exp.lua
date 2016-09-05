@@ -6,7 +6,7 @@ local experience_Text = experience:CreateFontString(nil,"OVERLAY")
 experience_Text:SetFont(unpack(info.Font))
 experience:SetAllPoints(experience_Text)
 info.Frames["experience"] = experience_Text
-
+local MaxLevel = UnitLevel("player") == 110
 -- artifact func
 local function getArtifactXP(pointsSpent, artifactXP)
 	local numPoints = 0;
@@ -34,11 +34,16 @@ info.ScriptOfFrame(experience, "OnEvent", function()
 	--	pointsSpent	花费的神器点数
 	--	totalXP		获得的总神器能量
 	-- local itemID, altItemID, name, icon, totalXP, pointsSpent, quality, artifactAppearanceID, appearanceModID, itemAppearanceID, altItemAppearanceID, altOnTop = C_ArtifactUI.GetEquippedArtifactInfo();
+	-- =================
+-- GetArtifacts() - returns a table array listing of obtained artifact weapons (includes bags, but not banks)
+-- GetPowerPurchased(artifactID) - returns number of powers purchased for specified ID (or equipped if not specified)
+-- GetPowers(artifactID) - returns a table array list of artifact powers, defaults to equipped artifact if no artifactID.
+-- GetPowerInfo(powerID,artifactID) - returns an information array about the specified powerID, defaults to equipped artifact if no artifactID.
 	local numPointsAvailableToSpend, xp, xpForNext = 0,0,0
 	-- getArtifactXP(pointsSpent,totalXP)
 	
-	experience_Text:SetText(percentExp.."%"..info.SetColorText(4,"xp")..";("..
-	(numPointsAvailableToSpend ~= 0 and info.SetColorText(4,numPointsAvailableToSpend..",") or "")..
+	experience_Text:SetText((MaxLevel and "" or percentExp.."%"..info.SetColorText(4,"xp")..";")..
+	"("..(numPointsAvailableToSpend ~= 0 and info.SetColorText(4,numPointsAvailableToSpend..",") or "")..
 	info.SetColorText(5,xp.."/"..xpForNext)..")")
 	-- local Standing = {FACTION_STANDING_LABEL1,FACTION_STANDING_LABEL2,FACTION_STANDING_LABEL3,
 					-- FACTION_STANDING_LABEL4,FACTION_STANDING_LABEL5,FACTION_STANDING_LABEL6,
@@ -67,6 +72,8 @@ experience:SetScript("OnMouseDown",function(self,button)
 		if button == "RightButton" then
 		else
 			ToggleCharacter("ReputationFrame")
+			-- test
+			print(GetArtifacts())
 		end
 	end
 end)

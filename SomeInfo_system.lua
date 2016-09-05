@@ -151,6 +151,8 @@ info.ScriptOfFrame(system,"OnEvent",function(self,event)
 			-- /run for i = 1, 15 do _G["GuildRosterContainerButton"..i.."String1"]:SetWidth(30) end
 		-- end
 		-- print("GUILD_ROSTER_UPDATE")
+		-- _G["GUILD_ROSTER_STRING_WIDTH_ADJ"]
+		-- _G["GuildRosterContainer"].buttons[i]["string1"]:SetWidth(30)
 	end
 	
 end)

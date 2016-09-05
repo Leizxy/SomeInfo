@@ -10,6 +10,8 @@ border:SetPoint("TOP",info.Frames["system"],"BOTTOM",0,-2)
 ------------
 --	[coords][exp][system][bag][money]
 ------------
+-- C_Garrison.IsPlayerInGarrison(LE_GARRISON_TYPE_7_0)
+-- /dump _G["OrderHallCommandBar"]:GetHeight()
 local OHCB = _G["OrderHallCommandBar"]
 if OHCB~=nil then
 	print("OHCB"..isshown)
