@@ -137,13 +137,22 @@ info.ScriptOfFrame(system,"OnMouseDown",function(self,button)
 	else		
 	end
 end)
+
 info.ScriptOfFrame(system,"OnEvent",function(self,event)
 	
 	collectgarbage("collect")
-	if event == "GUILD_ROSTER_UPDATE" then
 		-- *************************************************
 		-- ****				公会界面优化				****
 		-- *************************************************
+	if event == "GUILD_ROSTER_UPDATE" or event == "GUILD_NEWS_UPDATE" then
+		if _G["GuildRosterContainer"] then
+			for i = 1, 15 do  
+				local GRCBS = _G["GuildRosterContainerButton"..i.."String1"]
+				if GRCBS then
+					GRCBS:SetWidth(34)
+				end
+			end
+		end
 		-- local allMembers = select(3,GetNumGuildMembers())
 		-- print(allMembers)
 		-- if _G["GuildRosterFrame"] ~= nil then
@@ -158,4 +167,5 @@ info.ScriptOfFrame(system,"OnEvent",function(self,event)
 end)
 system:RegisterEvent("PLAYER_REGEN_ENABLED")
 system:RegisterEvent("GUILD_ROSTER_UPDATE")
+system:RegisterEvent("GUILD_NEWS_UPDATE")
 -- Update(system,20)

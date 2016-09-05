@@ -10,14 +10,14 @@ local MaxLevel = UnitLevel("player") == 110
 -- artifact func
 local function getArtifactXP(pointsSpent, artifactXP)
 	local numPoints = 0;
-	-- local xpForNextPoint = C_ArtifactUI.GetCostForPointAtRank(pointsSpent);
+	local xpForNextPoint = C_ArtifactUI.GetCostForPointAtRank(pointsSpent);
 	while artifactXP >= xpForNextPoint and xpForNextPoint > 0 do
 		artifactXP = artifactXP - xpForNextPoint;
 
 		pointsSpent = pointsSpent + 1;
 		numPoints = numPoints + 1;
 
-		-- xpForNextPoint = C_ArtifactUI.GetCostForPointAtRank(pointsSpent);
+		xpForNextPoint = C_ArtifactUI.GetCostForPointAtRank(pointsSpent);
 	end
 	return numPoints, artifactXP, xpForNextPoint;
 end
@@ -33,15 +33,9 @@ info.ScriptOfFrame(experience, "OnEvent", function()
 	--***********ARTIFACT***********(暂时与经验放一起)
 	--	pointsSpent	花费的神器点数
 	--	totalXP		获得的总神器能量
-	-- local itemID, altItemID, name, icon, totalXP, pointsSpent, quality, artifactAppearanceID, appearanceModID, itemAppearanceID, altItemAppearanceID, altOnTop = C_ArtifactUI.GetEquippedArtifactInfo();
+	local itemID, altItemID, name, icon, totalXP, pointsSpent, quality, artifactAppearanceID, appearanceModID, itemAppearanceID, altItemAppearanceID, altOnTop = C_ArtifactUI.GetEquippedArtifactInfo();
 	-- =================
--- GetArtifacts() - returns a table array listing of obtained artifact weapons (includes bags, but not banks)
--- GetPowerPurchased(artifactID) - returns number of powers purchased for specified ID (or equipped if not specified)
--- GetPowers(artifactID) - returns a table array list of artifact powers, defaults to equipped artifact if no artifactID.
--- GetPowerInfo(powerID,artifactID) - returns an information array about the specified powerID, defaults to equipped artifact if no artifactID.
-	local numPointsAvailableToSpend, xp, xpForNext = 0,0,0
-	-- getArtifactXP(pointsSpent,totalXP)
-	
+	local numPointsAvailableToSpend, xp, xpForNext = getArtifactXP(pointsSpent,totalXP)	
 	experience_Text:SetText((MaxLevel and "" or percentExp.."%"..info.SetColorText(4,"xp")..";")..
 	"("..(numPointsAvailableToSpend ~= 0 and info.SetColorText(4,numPointsAvailableToSpend..",") or "")..
 	info.SetColorText(5,xp.."/"..xpForNext)..")")
@@ -73,7 +67,7 @@ experience:SetScript("OnMouseDown",function(self,button)
 		else
 			ToggleCharacter("ReputationFrame")
 			-- test
-			print(GetArtifacts())
+			-- print(C_ArtifactUI.GetEquippedArtifactInfo())	
 		end
 	end
 end)

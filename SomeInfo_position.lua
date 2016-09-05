@@ -10,18 +10,25 @@ border:SetPoint("TOP",info.Frames["system"],"BOTTOM",0,-2)
 ------------
 --	[coords][exp][system][bag][money]
 ------------
--- C_Garrison.IsPlayerInGarrison(LE_GARRISON_TYPE_7_0)
+-- /dump print(C_Garrison.IsPlayerInGarrison(LE_GARRISON_TYPE_7_0))
 -- /dump _G["OrderHallCommandBar"]:GetHeight()
-local OHCB = _G["OrderHallCommandBar"]
-if OHCB~=nil then
-	print("OHCB"..isshown)
-end
+-- /dump _G["LE_GARRISON_TYPE_7_0"]
+-- print(C_Garrison.IsPlayerInGarrison(LE_GARRISON_TYPE_7_0))
+local inGarrison = C_Garrison.IsPlayerInGarrison(LE_GARRISON_TYPE_7_0)
+
 -- if _G["OrderHallCommandBar"]:IsShown() then
 	-- info.Frames["system"]:SetPoint("TOP",OrderHallCommandBar,"BOTTOM", 0,-4)
 -- else
 -- end
--- info.Frames["system"]:SetPoint("TOP",_G["OrderHallCommandBar"] == nil and UIParent or _G["OrderHallCommandBar"],"TOP", 0,-4)
-info.Frames["system"]:SetPoint("TOP", UIParent,"TOP", 0,-4)
+-- info.Frames["system"]:SetPoint("TOP", inGarrison and UIParent or _G["OrderHallCommandBar"],"TOP", 0,-4)
+local f = CreateFrame("Frame")
+f:SetScript("OnEvent",function(self,event) 
+	if event == "PLAYER_ENTERING_WORLD" then
+		print("enter")
+		info.Frames["system"]:SetPoint("TOP", UIParent,"TOP", 0,inGarrison and -30 or -4)
+	end
+end)
+f:RegisterEvent("PLAYER_ENTERING_WORLD")
 info.Frames["bag"]:SetPoint("LEFT",info.Frames["system"], "RIGHT",SPACE,0)
 info.Frames["money"]:SetPoint("LEFT",info.Frames["bag"], "RIGHT",SPACE,0)
 info.Frames["experience"]:SetPoint("RIGHT",info.Frames["system"], "LEFT",-SPACE,0)
