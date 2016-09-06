@@ -117,7 +117,7 @@ local function Update(self,t)--参数t是秒单位。所以t的值一般都是�
 		if self:IsMouseOver() then
 			func(system)
 		end
-		if event == "GUILD_ROSTER_UPDATE" or event == "GUILD_NEWS_UPDATE" then
+		-- if event == "GUILD_ROSTER_UPDATE" or event == "GUILD_NEWS_UPDATE" then
 			if _G["GuildRosterContainer"] then
 				for i = 1, 15 do  
 					local GRCBS = _G["GuildRosterContainerButton"..i.."String1"]
@@ -126,7 +126,7 @@ local function Update(self,t)--参数t是秒单位。所以t的值一般都是�
 					end
 				end
 			end
-		end
+		-- end
 	end	
 end
 
