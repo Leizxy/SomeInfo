@@ -117,7 +117,16 @@ local function Update(self,t)--参数t是秒单位。所以t的值一般都是�
 		if self:IsMouseOver() then
 			func(system)
 		end
-		
+		if event == "GUILD_ROSTER_UPDATE" or event == "GUILD_NEWS_UPDATE" then
+			if _G["GuildRosterContainer"] then
+				for i = 1, 15 do  
+					local GRCBS = _G["GuildRosterContainerButton"..i.."String1"]
+					if GRCBS then
+						GRCBS:SetWidth(34)
+					end
+				end
+			end
+		end
 	end	
 end
 
@@ -144,15 +153,17 @@ info.ScriptOfFrame(system,"OnEvent",function(self,event)
 		-- *************************************************
 		-- ****				公会界面优化				****
 		-- *************************************************
-	if event == "GUILD_ROSTER_UPDATE" or event == "GUILD_NEWS_UPDATE" then
-		if _G["GuildRosterContainer"] then
-			for i = 1, 15 do  
-				local GRCBS = _G["GuildRosterContainerButton"..i.."String1"]
-				if GRCBS then
-					GRCBS:SetWidth(34)
-				end
-			end
-		end
+		-- 刚登陆游戏打开公会界面会卡
+	-- if event == "GUILD_ROSTER_UPDATE" or event == "GUILD_NEWS_UPDATE" then
+		-- if _G["GuildRosterContainer"] then
+			-- for i = 1, 15 do  
+				-- local GRCBS = _G["GuildRosterContainerButton"..i.."String1"]
+				-- if GRCBS then
+					-- GRCBS:SetWidth(34)
+				-- end
+			-- end
+		-- end
+	-- end
 		-- local allMembers = select(3,GetNumGuildMembers())
 		-- print(allMembers)
 		-- if _G["GuildRosterFrame"] ~= nil then
@@ -162,10 +173,10 @@ info.ScriptOfFrame(system,"OnEvent",function(self,event)
 		-- print("GUILD_ROSTER_UPDATE")
 		-- _G["GUILD_ROSTER_STRING_WIDTH_ADJ"]
 		-- _G["GuildRosterContainer"].buttons[i]["string1"]:SetWidth(30)
-	end
+	
 	
 end)
 system:RegisterEvent("PLAYER_REGEN_ENABLED")
-system:RegisterEvent("GUILD_ROSTER_UPDATE")
-system:RegisterEvent("GUILD_NEWS_UPDATE")
+-- system:RegisterEvent("GUILD_ROSTER_UPDATE")
+-- system:RegisterEvent("GUILD_NEWS_UPDATE")
 -- Update(system,20)

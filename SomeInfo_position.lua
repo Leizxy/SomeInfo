@@ -14,21 +14,42 @@ border:SetPoint("TOP",info.Frames["system"],"BOTTOM",0,-2)
 -- /dump _G["OrderHallCommandBar"]:GetHeight()
 -- /dump _G["LE_GARRISON_TYPE_7_0"]
 -- print(C_Garrison.IsPlayerInGarrison(LE_GARRISON_TYPE_7_0))
-local inGarrison = C_Garrison.IsPlayerInGarrison(LE_GARRISON_TYPE_7_0)
+
 
 -- if _G["OrderHallCommandBar"]:IsShown() then
 	-- info.Frames["system"]:SetPoint("TOP",OrderHallCommandBar,"BOTTOM", 0,-4)
 -- else
 -- end
 -- info.Frames["system"]:SetPoint("TOP", inGarrison and UIParent or _G["OrderHallCommandBar"],"TOP", 0,-4)
-local f = CreateFrame("Frame")
-f:SetScript("OnEvent",function(self,event) 
-	if event == "PLAYER_ENTERING_WORLD" then
-		print("enter")
-		info.Frames["system"]:SetPoint("TOP", UIParent,"TOP", 0,inGarrison and -30 or -4)
+info.Frames["system"]:SetPoint("TOP", UIParent,"TOP", 0, -4)
+local f = CreateFrame("Frame",nil,UIParent)
+local step = 0.5
+local count = 1
+local update = false
+f:SetScript("OnEvent",function(self,event,...)
+	if event == "PLAYER_ENTERING_WORLD" or event == "PLAYER_LOGIN" then
+		-- print("enter")
+		update = true
+	end
+end)
+f:SetScript("OnUpdate",function(self,t) 
+	if update then 
+		step = step - t
+		local inGarrison = C_Garrison.IsPlayerInGarrison(LE_GARRISON_TYPE_7_0)
+		if step < 0 then
+			info.Frames["system"]:SetPoint("TOP", UIParent,"TOP", 0,inGarrison and -30 or -4)
+			step = 0.5
+			count = count + 1
+			if count >= 3 then
+				update = false
+			end
+		end
+	-- else		
+		-- info.Frames["system"]:SetPoint("TOP", UIParent,"TOP", 0,-4)
 	end
 end)
 f:RegisterEvent("PLAYER_ENTERING_WORLD")
+f:RegisterEvent("PLAYER_LOGIN")
 info.Frames["bag"]:SetPoint("LEFT",info.Frames["system"], "RIGHT",SPACE,0)
 info.Frames["money"]:SetPoint("LEFT",info.Frames["bag"], "RIGHT",SPACE,0)
 info.Frames["experience"]:SetPoint("RIGHT",info.Frames["system"], "LEFT",-SPACE,0)
@@ -75,11 +96,11 @@ local function breathcolor(step)
 	-- end
 end
 
-border:SetScript("OnUpdate",function(self,t)
-	local step = t/3
-	breathcolor(step)
+-- border:SetScript("OnUpdate",function(self,t)
+	-- local step = t/3
+	-- breathcolor(step)
 	
-	border:SetBackdropBorderColor(r,g,b,1)
-end)
+	-- border:SetBackdropBorderColor(r,g,b,1)
+-- end)
 
 border:Hide()
