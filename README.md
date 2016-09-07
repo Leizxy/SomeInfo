@@ -1,2 +1,0 @@
-# SomeInfo
-WoW AddOns

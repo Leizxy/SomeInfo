@@ -34,16 +34,16 @@ f:SetScript("OnEvent",function(self,event,...)
 end)
 f:SetScript("OnUpdate",function(self,t) 
 	if update then 
-		step = step - t
+		-- step = step - t
 		local inGarrison = C_Garrison.IsPlayerInGarrison(LE_GARRISON_TYPE_7_0)
-		if step < 0 then
+		-- if step < 0 then
 			info.Frames["system"]:SetPoint("TOP", UIParent,"TOP", 0,inGarrison and -30 or -4)
-			step = 0.5
+			-- step = 0.5
 			count = count + 1
 			if count >= 3 then
 				update = false
 			end
-		end
+		-- end
 	-- else		
 		-- info.Frames["system"]:SetPoint("TOP", UIParent,"TOP", 0,-4)
 	end
