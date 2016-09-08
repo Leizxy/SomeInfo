@@ -73,10 +73,17 @@ end)
 experience:SetScript("OnMouseDown",function(self,button)
 	if info.Experience_ggtShow then
 		if button == "RightButton" then
+			if HasArtifactEquipped() then
+				-- 打开神器界面
+				-- 如果上线第一次打开会有卡顿，试试这一段代码
+				-- local loaded,reason = LoadAddOn("Blizzard_ArtifactUI")
+				-- if loaded then
+					-- SocketInventoryItem(16)
+				-- end
+				SocketInventoryItem(16)				
+			end
 		else
-			ToggleCharacter("ReputationFrame")
-			-- test
-			-- print(C_ArtifactUI.GetEquippedArtifactInfo())	
+			ToggleCharacter("ReputationFrame")	
 		end
 	end
 end)

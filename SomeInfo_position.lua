@@ -8,7 +8,7 @@ border:SetBackdropColor(0,0,0,1)
 border:SetPoint("TOP",info.Frames["system"],"BOTTOM",0,-2)
 
 ------------
---	[coords][exp][system][bag][money]
+--	[loot][exp][system][bag][money][coords]
 ------------
 -- /dump print(C_Garrison.IsPlayerInGarrison(LE_GARRISON_TYPE_7_0))
 -- /dump _G["OrderHallCommandBar"]:GetHeight()
@@ -52,8 +52,9 @@ f:RegisterEvent("PLAYER_ENTERING_WORLD")
 f:RegisterEvent("PLAYER_LOGIN")
 info.Frames["bag"]:SetPoint("LEFT",info.Frames["system"], "RIGHT",SPACE,0)
 info.Frames["money"]:SetPoint("LEFT",info.Frames["bag"], "RIGHT",SPACE,0)
+info.Frames["coords"]:SetPoint("LEFT",info.Frames["money"], "RIGHT",SPACE,0)
 info.Frames["experience"]:SetPoint("RIGHT",info.Frames["system"], "LEFT",-SPACE,0)
-info.Frames["coords"]:SetPoint("RIGHT",info.Frames["experience"], "LEFT",-SPACE,0)
+info.Frames["loot"]:SetPoint("RIGHT",info.Frames["experience"], "LEFT",-SPACE,0)
 
 --[[	breathcolor   ]]
 
