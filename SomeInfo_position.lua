@@ -40,7 +40,7 @@ f:SetScript("OnUpdate",function(self,t)
 			info.Frames["system"]:SetPoint("TOP", UIParent,"TOP", 0,inGarrison and -30 or -4)
 			-- step = 0.5
 			count = count + 1
-			if count >= 3 then
+			if count >= 5 then
 				update = false
 			end
 		-- end
@@ -52,7 +52,7 @@ f:RegisterEvent("PLAYER_ENTERING_WORLD")
 f:RegisterEvent("PLAYER_LOGIN")
 info.Frames["bag"]:SetPoint("LEFT",info.Frames["system"], "RIGHT",SPACE,0)
 info.Frames["money"]:SetPoint("LEFT",info.Frames["bag"], "RIGHT",SPACE,0)
-info.Frames["coords"]:SetPoint("LEFT",info.Frames["money"], "RIGHT",SPACE,0)
+info.Frames["coords"]:SetPoint("LEFT",info.Frames["money"], "RIGHT",SPACE+SPACE,0)
 info.Frames["experience"]:SetPoint("RIGHT",info.Frames["system"], "LEFT",-SPACE,0)
 info.Frames["loot"]:SetPoint("RIGHT",info.Frames["experience"], "LEFT",-SPACE,0)
 
