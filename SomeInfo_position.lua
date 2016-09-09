@@ -52,7 +52,7 @@ f:RegisterEvent("PLAYER_ENTERING_WORLD")
 f:RegisterEvent("PLAYER_LOGIN")
 info.Frames["bag"]:SetPoint("LEFT",info.Frames["system"], "RIGHT",SPACE,0)
 info.Frames["money"]:SetPoint("LEFT",info.Frames["bag"], "RIGHT",SPACE,0)
-info.Frames["coords"]:SetPoint("LEFT",info.Frames["money"], "RIGHT",SPACE+SPACE,0)
+info.Frames["coords"]:SetPoint("LEFT",info.Frames["money"].texture, "RIGHT",SPACE,0)
 info.Frames["experience"]:SetPoint("RIGHT",info.Frames["system"], "LEFT",-SPACE,0)
 info.Frames["loot"]:SetPoint("RIGHT",info.Frames["experience"], "LEFT",-SPACE,0)
 
