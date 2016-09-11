@@ -52,7 +52,49 @@ local function child_frame_setSize(frames)
 		frames[i]:SetPoint("TOP",loot_Text,"BOTTOM",0,-5-((i-1)*21))
 	end
 end
-
+local function specTexture(fs)
+	local j
+	for i = 1, #fs do
+		j = i
+		fs[i]:SetBackdrop({bgFile="Interface\\Buttons\\WHITE8X8",edgeFile="",tile=false,edgeSize=1})
+		fs[i]:SetBackdropColor(0,0,0,.4)
+		-- fs[i]:SetBackdropBorderColor(playerColor.r,playerColor.g,playerColor.b,.9)
+		fs[i].texture = fs[i]:CreateTexture(nil,"ARTWORK")
+		fs[i].texture:SetSize(12,12)
+		fs[i].texture:SetPoint("LEFT",fs[i],"LEFT",4,0)
+		fs[i].text = fs[i]:CreateFontString(nil,"OVERLAY")
+		fs[i].text:SetFont(unpack(info.Font))
+		fs[i].text:SetPoint("LEFT",fs[i].texture,"RIGHT",8,0)
+		if i >= GetSpecialization() then
+			-- fs[i].texture:SetTexture(select(4,GetSpecializationInfo(i+1)))
+			-- fs[i].text:SetText(select(2,GetSpecializationInfo(i+1)))
+			j = i + 1
+		end
+		fs[i].texture:SetTexture(select(4,GetSpecializationInfo(j)))
+		fs[i].text:SetText(unitColorStr..select(2,GetSpecializationInfo(j)).."|r")
+		fs[i]:SetScript("OnMouseDown", function(self,button)
+			if button == "LeftButton" then
+				PlaySoundFile("Interface\\AddOns\\SomeInfo\\Sound\\yuanshi.mp3")
+				SetSpecialization(i)
+				print(i)
+				showOrHideFrame(fs)
+			end
+		end)
+		-- 	显示超过7秒就隐藏
+		fs[i]:SetScript("OnShow", function(self)
+			C_Timer.After(7,function() 
+				PlaySound("AchievementMenuClose");
+				self:Hide()
+			end)
+		end)
+		fs[i]:SetScript("OnEnter", function()
+			fs[i]:SetBackdropColor(1,1,1,.5)
+		end)
+		fs[i]:SetScript("OnLeave", function()
+			fs[i]:SetBackdropColor(0,0,0,.4)
+		end)
+	end
+end
 local function child_frame_setTexture(tb,child)
 	local fs = tb[child]
 	if child == "Loot" then 
@@ -92,46 +134,7 @@ local function child_frame_setTexture(tb,child)
 		end
 	elseif child == "Spec" then
 		-- GetSpecialization()  -- 1,2,3,4
-		local j
-		for i = 1, #fs do
-			j = i
-			fs[i]:SetBackdrop({bgFile="Interface\\Buttons\\WHITE8X8",edgeFile="",tile=false,edgeSize=1})
-			fs[i]:SetBackdropColor(0,0,0,.4)
-			-- fs[i]:SetBackdropBorderColor(playerColor.r,playerColor.g,playerColor.b,.9)
-			fs[i].texture = fs[i]:CreateTexture(nil,"ARTWORK")
-			fs[i].texture:SetSize(12,12)
-			fs[i].texture:SetPoint("LEFT",fs[i],"LEFT",4,0)
-			fs[i].text = fs[i]:CreateFontString(nil,"OVERLAY")
-			fs[i].text:SetFont(unpack(info.Font))
-			fs[i].text:SetPoint("LEFT",fs[i].texture,"RIGHT",8,0)
-			if i >= GetSpecialization() then
-				-- fs[i].texture:SetTexture(select(4,GetSpecializationInfo(i+1)))
-				-- fs[i].text:SetText(select(2,GetSpecializationInfo(i+1)))
-				j = i + 1
-			end
-			fs[i].texture:SetTexture(select(4,GetSpecializationInfo(j)))
-			fs[i].text:SetText(unitColorStr..select(2,GetSpecializationInfo(j)).."|r")
-			fs[i]:SetScript("OnMouseDown", function(self,button)
-				if button == "LeftButton" then
-					PlaySoundFile("Interface\\AddOns\\SomeInfo\\Sound\\yuanshi.mp3")
-					SetSpecialization(j)
-					showOrHideFrame(fs)
-				end
-			end)
-			-- 	显示超过7秒就隐藏
-			fs[i]:SetScript("OnShow", function(self)
-				C_Timer.After(7,function() 
-					PlaySound("AchievementMenuClose");
-					self:Hide()
-				end)
-			end)
-			fs[i]:SetScript("OnEnter", function()
-				fs[i]:SetBackdropColor(1,1,1,.5)
-			end)
-			fs[i]:SetScript("OnLeave", function()
-				fs[i]:SetBackdropColor(0,0,0,.4)
-			end)
-		end
+		specTexture(fs)
 	end
 end
 --	child frame
@@ -183,14 +186,14 @@ info.ScriptOfFrame(loot, "OnMouseDown", function(self,button)
 		end
 		if not child_frames["Spec"] then
 			createChildFrames("Spec")
-			createChildFrames("Spec")
+			-- createChildFrames("Spec")
 		else
+			specTexture(child_frames["Spec"])
 			showOrHideFrame(child_frames["Spec"])
-			
 		end
 	elseif button == "RightButton" then
 		-- 切换专精拾取
-		print(unpack(specIds))
+		-- print(unpack(specIds))
 		if child_frames["Spec"] then
 			hideFrame(child_frames["Spec"])
 		end

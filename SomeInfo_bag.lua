@@ -33,7 +33,7 @@ local function OnEvent(self, event, ...)
 
 	local func = function()
 		if info.Bag_gttShow then
-			GameTooltip:SetOwner(self,"ANCHOR_BOTTOMLEFT",-bag_text:GetWidth(),-5)
+			GameTooltip:SetOwner(self,"ANCHOR_BOTTOMLEFT",bag_text:GetWidth(),-5)
 			GameTooltip:ClearAllPoints()
 			-- GameTooltip:SetPoint(unpack(info.Bag_gttPosition))
 			-- GameTooltip:SetPoint("BOTTOM",self,"TOPLEFT",0,5)

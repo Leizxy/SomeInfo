@@ -42,6 +42,7 @@ f:SetScript("OnUpdate",function(self,t)
 			count = count + 1
 			if count >= 5 then
 				update = false
+				count = 1
 			end
 		-- end
 	-- else		
