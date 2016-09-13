@@ -166,18 +166,26 @@ end
 
 
 info.ScriptOfFrame(loot,"OnEvent",function()
+	-- if event == "PLAYER_LOGIN" or event == "PLAYER_ENTERING_WORLD" or event == "PLAYER_LOOT_SPEC_UPDATED" then
 	local specId = GetLootSpecialization() --== 0 and select(1,GetSpecializationInfo(GetSpecialization())) or GetLootSpecialization()
-	local specName = GetSpecializationNameForSpecID(specId ~= 0 and specId or select(1,GetSpecializationInfo(GetSpecialization()))) --select(2,GetSpecializationInfoByID(specId))
+	-- end
+	local specName 
+	-- = GetSpecializationNameForSpecID(specId ~= 0 and specId or select(1,GetSpecializationInfo(GetSpecialization()))) --select(2,GetSpecializationInfoByID(specId))
+	if specId == 0 then
+		specName = GetSpecializationNameForSpecID(select(1,GetSpecializationInfo(GetSpecialization())))
+	else
+		specName = GetSpecializationNameForSpecID(specId)
+	end
 	for i = 1, GetNumSpecializations(false,false) do
 		specIds[i+1] = select(1,GetSpecializationInfo(i))
 		-- tinsert(specIds,select(1,GetSpecializationInfo(i)))
 	end
 	loot_Text:SetText("Loot:"..unitColorStr..specName.."|r")
-	if event == "ACTIVE_TALENT_GROUP_CHANGED" then
+	-- if event == "ACTIVE_TALENT_GROUP_CHANGED" then
 		if child_frames["Spec"] then
 			specTexture(child_frames["Spec"])
 		end
-	end
+	-- end
 end)
 
 info.ScriptOfFrame(loot, "OnMouseDown", function(self,button)
