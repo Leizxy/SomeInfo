@@ -53,9 +53,8 @@ local function child_frame_setSize(frames)
 	end
 end
 local function specTexture(fs)
-	local j
 	for i = 1, #fs do
-		j = i
+		local j = i
 		fs[i]:SetBackdrop({bgFile="Interface\\Buttons\\WHITE8X8",edgeFile="",tile=false,edgeSize=1})
 		fs[i]:SetBackdropColor(0,0,0,.4)
 		-- fs[i]:SetBackdropBorderColor(playerColor.r,playerColor.g,playerColor.b,.9)
@@ -75,8 +74,7 @@ local function specTexture(fs)
 		fs[i]:SetScript("OnMouseDown", function(self,button)
 			if button == "LeftButton" then
 				PlaySoundFile("Interface\\AddOns\\SomeInfo\\Sound\\yuanshi.mp3")
-				SetSpecialization(i)
-				print(i)
+				SetSpecialization(j)
 				showOrHideFrame(fs)
 			end
 		end)
@@ -175,6 +173,11 @@ info.ScriptOfFrame(loot,"OnEvent",function()
 		-- tinsert(specIds,select(1,GetSpecializationInfo(i)))
 	end
 	loot_Text:SetText("Loot:"..unitColorStr..specName.."|r")
+	if event == "ACTIVE_TALENT_GROUP_CHANGED" then
+		if child_frames["Spec"] then
+			specTexture(child_frames["Spec"])
+		end
+	end
 end)
 
 info.ScriptOfFrame(loot, "OnMouseDown", function(self,button)
@@ -186,7 +189,6 @@ info.ScriptOfFrame(loot, "OnMouseDown", function(self,button)
 		end
 		if not child_frames["Spec"] then
 			createChildFrames("Spec")
-			-- createChildFrames("Spec")
 		else
 			specTexture(child_frames["Spec"])
 			showOrHideFrame(child_frames["Spec"])
@@ -208,8 +210,7 @@ info.ScriptOfFrame(loot, "OnMouseDown", function(self,button)
 	end
 end)
 
-
-
--- PLAYER_LOOT_SPEC_UPDATED
 loot:RegisterEvent("PLAYER_LOGIN")
+loot:RegisterEvent("PLAYER_ENTERING_WORLD")
 loot:RegisterEvent("PLAYER_LOOT_SPEC_UPDATED")
+loot:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED")

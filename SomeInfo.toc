@@ -6,7 +6,7 @@
 ##animationdemo
 
 
-ChangeSpec.lua
+##ChangeSpec.lua
 SomeInfo.lua
 SomeInfo_bag.lua
 SomeInfo_system.lua

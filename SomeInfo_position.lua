@@ -8,7 +8,7 @@ border:SetBackdropColor(0,0,0,1)
 border:SetPoint("TOP",info.Frames["system"],"BOTTOM",0,-2)
 
 ------------
---	[loot][exp][system][bag][money][coords]
+--	[loot][exp]{[system]}[bag][money][coords]
 ------------
 -- /dump print(C_Garrison.IsPlayerInGarrison(LE_GARRISON_TYPE_7_0))
 -- /dump _G["OrderHallCommandBar"]:GetHeight()
@@ -27,7 +27,7 @@ local step = 0.5
 local count = 1
 local update = false
 f:SetScript("OnEvent",function(self,event,...)
-	if event == "PLAYER_ENTERING_WORLD" or event == "PLAYER_LOGIN" then
+	if event == "PLAYER_ENTERING_WORLD" or event == "PLAYER_LOGIN" or event == "ZONE_CHANGED_NEW_AREA" then
 		-- print("enter")
 		update = true
 	end
@@ -50,6 +50,7 @@ f:SetScript("OnUpdate",function(self,t)
 	end
 end)
 f:RegisterEvent("PLAYER_ENTERING_WORLD")
+f:RegisterEvent("ZONE_CHANGED_NEW_AREA")
 f:RegisterEvent("PLAYER_LOGIN")
 info.Frames["bag"]:SetPoint("LEFT",info.Frames["system"], "RIGHT",SPACE,0)
 info.Frames["money"]:SetPoint("LEFT",info.Frames["bag"], "RIGHT",SPACE,0)

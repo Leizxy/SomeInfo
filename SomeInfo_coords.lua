@@ -36,7 +36,7 @@ WorldMapButton:HookScript("OnUpdate", function(self)
 		--self.coordText = WorldMapFrameCloseButton:CreateFontString(nil, "OVERLAY", "GameFontGreen") 
 		self.coordText = WorldMapFrameCloseButton:CreateFontString(nil, "OVERLAY", "GameFontWhite") 
 		self.coordText:SetFont(UNIT_NAME_FONT, 14, "THINOUTLINE")
-		self.coordText:SetPoint("BOTTOM", WorldMapScrollFrame, "BOTTOM", 0, 6) 
+		self.coordText:SetPoint("BOTTOM", WorldMapScrollFrame, "BOTTOM", 0, -6) 
 		self.coordText:SetShadowOffset(1,-1)
 		self.coordText:SetShadowColor(0, 0, 0, 1)
 	end 
