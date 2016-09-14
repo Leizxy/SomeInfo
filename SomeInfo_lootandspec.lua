@@ -58,10 +58,14 @@ local function specTexture(fs)
 		fs[i]:SetBackdrop({bgFile="Interface\\Buttons\\WHITE8X8",edgeFile="",tile=false,edgeSize=1})
 		fs[i]:SetBackdropColor(0,0,0,.4)
 		-- fs[i]:SetBackdropBorderColor(playerColor.r,playerColor.g,playerColor.b,.9)
-		fs[i].texture = fs[i]:CreateTexture(nil,"ARTWORK")
+		if fs[i].texture == nil then
+			fs[i].texture = fs[i]:CreateTexture(nil,"ARTWORK")
+		end
 		fs[i].texture:SetSize(12,12)
 		fs[i].texture:SetPoint("LEFT",fs[i],"LEFT",4,0)
-		fs[i].text = fs[i]:CreateFontString(nil,"OVERLAY")
+		if fs[i].text == nil then
+			fs[i].text = fs[i]:CreateFontString(nil,"OVERLAY")
+		end
 		fs[i].text:SetFont(unpack(info.Font))
 		fs[i].text:SetPoint("LEFT",fs[i].texture,"RIGHT",8,0)
 		if i >= GetSpecialization() then
@@ -100,11 +104,15 @@ local function child_frame_setTexture(tb,child)
 			fs[i]:SetBackdrop({bgFile="Interface\\Buttons\\WHITE8X8",edgeFile="",tile=false,edgeSize=1})
 			fs[i]:SetBackdropColor(0,0,0,.4)
 			-- fs[i]:SetBackdropBorderColor(playerColor.r,playerColor.g,playerColor.b,.9)
-			fs[i].texture = fs[i]:CreateTexture(nil,"ARTWORK")
+			if fs[i].texture == nil then
+				fs[i].texture = fs[i]:CreateTexture(nil,"ARTWORK")
+			end
 			fs[i].texture:SetTexture("Interface\\GROUPFRAME\\UI-Group-MasterLooter")
 			fs[i].texture:SetSize(12,12)
 			fs[i].texture:SetPoint("LEFT",fs[i],"LEFT",4,0)
-			fs[i].text = fs[i]:CreateFontString(nil,"OVERLAY")
+			if fs[i].text == nil then
+				fs[i].text = fs[i]:CreateFontString(nil,"OVERLAY")
+			end
 			fs[i].text:SetFont(unpack(info.Font))
 			fs[i].text:SetText(i==1 and "当前" or unitColorStr..select(2,GetSpecializationInfo(i-1)).."|r")
 			fs[i].text:SetPoint("LEFT",fs[i].texture,"RIGHT",8,0)
@@ -165,28 +173,53 @@ local function createChildFrames(child)
 end
 
 
-info.ScriptOfFrame(loot,"OnEvent",function()
-	-- if event == "PLAYER_LOGIN" or event == "PLAYER_ENTERING_WORLD" or event == "PLAYER_LOOT_SPEC_UPDATED" then
-	local specId = GetLootSpecialization() --== 0 and select(1,GetSpecializationInfo(GetSpecialization())) or GetLootSpecialization()
-	-- end
-	local specName 
-	-- = GetSpecializationNameForSpecID(specId ~= 0 and specId or select(1,GetSpecializationInfo(GetSpecialization()))) --select(2,GetSpecializationInfoByID(specId))
-	if specId == 0 then
-		specName = GetSpecializationNameForSpecID(select(1,GetSpecializationInfo(GetSpecialization())))
-	else
-		specName = GetSpecializationNameForSpecID(specId)
-	end
+info.ScriptOfFrame(loot,"OnEvent",function(self,event,...)
+--[[
 	for i = 1, GetNumSpecializations(false,false) do
 		specIds[i+1] = select(1,GetSpecializationInfo(i))
-		-- tinsert(specIds,select(1,GetSpecializationInfo(i)))
 	end
+	-- if event == "PLAYER_LOGIN" or event == "PLAYER_ENTERING_WORLD" or event == "PLAYER_LOOT_SPEC_UPDATED" then
+	local specId = GetLootSpecialization()
+	if specId == 0 then
+		specId = select(1,GetSpecializationInfo(GetSpecialization())) 
+	else
+		specId = GetLootSpecialization()
+	end
+		-- local specName = GetSpecializationNameForSpecID(specId ~= 0 and specId or select(1,GetSpecializationInfo(GetSpecialization()))) --select(2,GetSpecializationInfoByID(specId))
+	-- local specName = GetSpecializationNameForSpecID(specId)
+	-- if specId == 0 then
+		-- specName = select(2,GetSpecializationInfoByID(select(1,GetSpecializationInfo(GetSpecialization()))))
+	-- else
+	local specName = select(2,GetSpecializationInfoByID(specId))
+	
 	loot_Text:SetText("Loot:"..unitColorStr..specName.."|r")
-	-- if event == "ACTIVE_TALENT_GROUP_CHANGED" then
+	if event == "ACTIVE_TALENT_GROUP_CHANGED" then
+		
+	end
+]]
+	for i = 1, GetNumSpecializations(false,false) do
+		specIds[i+1] = select(1,GetSpecializationInfo(i))
+	end
+	local id = GetLootSpecialization()
+	
+	if event == "PLAYER_LOGIN" or event == "PLAYER_LOOT_SPEC_UPDATED" then
+		loot_Text:SetText("Loot: "..GetSpecializationNameForSpecID(id == 0 and select(1,GetSpecializationInfo(GetSpecialization())) or id))
+	end
+	if event == "ACTIVE_TALENT_GROUP_CHANGED" then
 		if child_frames["Spec"] then
 			specTexture(child_frames["Spec"])
 		end
-	-- end
+	end
+	
 end)
+-- Message: Interface\AddOns\SomeInfo\SomeInfo_lootandspec.lua:176: Usage: GetSpecializationInfoForSpecID(specID[,sex])
+-- Time: 09/14/16 09:28:07
+-- Count: 1
+-- Stack: [C]: in function `GetSpecializationNameForSpecID'
+-- Interface\AddOns\SomeInfo\SomeInfo_lootandspec.lua:176: in function <Interface\AddOns\SomeInfo\SomeInfo_lootandspec.lua:168>
+
+-- Locals: (*temporary) = nil
+
 
 info.ScriptOfFrame(loot, "OnMouseDown", function(self,button)
 	if button == "LeftButton" then
@@ -219,6 +252,6 @@ info.ScriptOfFrame(loot, "OnMouseDown", function(self,button)
 end)
 
 loot:RegisterEvent("PLAYER_LOGIN")
-loot:RegisterEvent("PLAYER_ENTERING_WORLD")
+-- loot:RegisterEvent("PLAYER_ENTERING_WORLD")
 loot:RegisterEvent("PLAYER_LOOT_SPEC_UPDATED")
 loot:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
