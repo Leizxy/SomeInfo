@@ -33,21 +33,15 @@ f:SetScript("OnEvent",function(self,event,...)
 	end
 end)
 f:SetScript("OnUpdate",function(self,t) 
-	if update then 
-		-- step = step - t
+	-- if update then 
 		local inGarrison = C_Garrison.IsPlayerInGarrison(LE_GARRISON_TYPE_7_0)
-		-- if step < 0 then
-			info.Frames["system"]:SetPoint("TOP", UIParent,"TOP", 0,inGarrison and -30 or -4)
-			-- step = 0.5
-			count = count + 1
-			if count >= 5 then
-				update = false
-				count = 1
-			end
+		info.Frames["system"]:SetPoint("TOP", UIParent,"TOP", 0,inGarrison and -30 or -4)
+		-- count = count + 1
+		-- if count >= 5 then
+			-- update = false
+			-- count = 1
 		-- end
-	-- else		
-		-- info.Frames["system"]:SetPoint("TOP", UIParent,"TOP", 0,-4)
-	end
+	-- end
 end)
 f:RegisterEvent("PLAYER_ENTERING_WORLD")
 f:RegisterEvent("ZONE_CHANGED_NEW_AREA")
