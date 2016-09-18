@@ -46,8 +46,8 @@ info.ScriptOfFrame(experience, "OnEvent", function(self,event,...)
 	-- =================
 	
 	experience_Text:SetText((MaxLevel and "" or percentExp.."%"..info.SetColorText(4,"xp")..";")..
-	"("..(numPointsAvailableToSpend ~= 0 and info.SetColorText(4,numPointsAvailableToSpend..",") or "")..
-	info.SetColorText(5,xp.."/"..xpForNext)..")")
+	(HasArtifactEquipped() and "("..(numPointsAvailableToSpend ~= 0 and info.SetColorText(4,numPointsAvailableToSpend..",") or "")..
+	info.SetColorText(5,xp.."/"..xpForNext)..")" or ""))
 	
 	local func = function()
 		if info.Experience_ggtShow then
