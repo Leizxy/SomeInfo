@@ -20,7 +20,7 @@ local durability_slots = {
 	{17,"副", 1}
 }
 durability:SetScript("OnEvent",function(self,event,...)
-	local totalDurable, totalMax
+	local totalDurable, totalMax = 0,0
 	for i = 1, #durability_slots do
 		if GetInventoryItemLink("player",durability_slots[i][1]) ~= nil then
 			local current,max = GetInventoryItemDurability(durability_slots[i][1])
@@ -32,7 +32,7 @@ durability:SetScript("OnEvent",function(self,event,...)
 		end
 	end
 	if totalDurable and totalMax then
-		durability_Text:SetText(string.format("%.f%",totalDurable/totalMax*100))
+		durability_Text:SetText(floor(totalDurable/totalMax*100).."%")
 	else
 		durability_Text:SetText("")
 	end
