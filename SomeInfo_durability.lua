@@ -32,7 +32,16 @@ durability:SetScript("OnEvent",function(self,event,...)
 		end
 	end
 	if totalDurable and totalMax then
-		durability_Text:SetText(floor(totalDurable/totalMax*100).."%")
+		local per = floor(totalDurable/totalMax*100)
+		local color = "|cffffffff"
+		if per > 66 then
+			color = "|cff0CD809"
+		elseif per < 33 then
+			color = "|cffE8DA0F"
+		else
+			color = "|cffD80909"
+		end
+		durability_Text:SetText(color..floor(totalDurable/totalMax*100).."%|r")
 	else
 		durability_Text:SetText("")
 	end
