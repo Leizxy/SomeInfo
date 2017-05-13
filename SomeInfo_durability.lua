@@ -162,7 +162,7 @@ local function OnEvent(self, event, ...)
       local EventType, SourceName, DestName, SpellID, ExtraskillID = select(2, ...), select(5, ...), select(9, ...), select(12, ...), select(15, ...)
       if SourceName == UnitName("player") then
          if EventType == "SPELL_INTERRUPT" then
-            Message = ("已打断" .. GetSpellLink(ExtraskillID))
+            Message = ("我好像打断了"..DestName..GetSpellLink(ExtraskillID))
          elseif EventType == "SPELL_DISPEL" then
             Message = ("已驱散" .. GetSpellLink(ExtraskillID))
          elseif EventType == "SPELL_STOLEN" then
