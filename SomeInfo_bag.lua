@@ -45,7 +45,6 @@ local function OnEvent(self, event, ...)
 			GameTooltip:AddDoubleLine("使用"..":",info.SetColorText(4,used),.6,.8,1,1,1,1)
 			GameTooltip:AddDoubleLine("")
 			GameTooltip:Show()
-			
 		end
 	end
 	info.ShowGameToolTip(bag,func)
@@ -88,7 +87,8 @@ f:SetScript("OnEvent", function()
 	if c > 0 then
 		--print(format("|cff99CCFF"..infoL["Your vendor trash has been sold and you earned"].."|r|cffFFFFFF%.1f|r|cffffd700%s|r", c * 0.0001,GOLD_AMOUNT_SYMBOL))
 		local g, s, c = math.floor(c/10000) or 0, math.floor((c%10000)/100) or 0, c%100 
-		DEFAULT_CHAT_FRAME:AddMessage("卖垃圾卖了".." |cffffffff"..g.."|cffffc125g|r".." |cffffffff"..s.."|cffc7c7cfs|r".." |cffffffff"..c.."|cffeda55fc|r"..".",255,255,255)
+		-- DEFAULT_CHAT_FRAME:AddMessage("卖垃圾卖了".." |cffffffff"..g.."|cffffc125g|r".." |cffffffff"..s.."|cffc7c7cfs|r".." |cffffffff"..c.."|cffeda55fc|r"..".",255,255,255)
+		DEFAULT_CHAT_FRAME:AddMessage("卖垃圾卖了"..g.."|TInterface\\MONEYFRAME\\UI-GoldIcon:12|t"..s.."|TInterface\\MONEYFRAME\\UI-SilverIcon:12|t"..c.."|TInterface\\MONEYFRAME\\UI-CopperIcon:12|t"..".",255,255,255)
 	end
 	--end
 end)
@@ -97,12 +97,13 @@ f:RegisterEvent("MERCHANT_SHOW")
 
 -- 命令卖物品
 SLASH_JUSTSELL1 = "/justsell"
+SLASH_JUSTSELL2 = "/js"
 
 function SlashCmdList.JUSTSELL(msg,editbox)
 	if msg == "" then
-		print("|cff0CD809Please write down a number after /justsell(like /justsell 10).")
+		print("|cff0CD809Please write down a number after /justsell or /js (like /justsell 10).")
 		print("|cffE8DA0FThis command is to sell something conveniently!")
-		print("|cff0CD809请在/justsell命令后面加上数字（例如：/justsell 10）。")
+		print("|cff0CD809请在/justsell或者/js命令后面加上数字（例如：/justsell 10）。")
 		print("|cffE8DA0F这个命令是为了方便售卖物品。")
 	else
 		local sell = false
@@ -126,7 +127,7 @@ function SlashCmdList.JUSTSELL(msg,editbox)
 							end
 						end
 					end
-				sell = false
+					sell = false
 				end)
 				f:RegisterEvent("MERCHANT_SHOW")
 			else
@@ -139,3 +140,32 @@ function SlashCmdList.JUSTSELL(msg,editbox)
 	end
 end
 
+--[自动修理] 
+local AutoRepair = true 
+local g = CreateFrame("Frame") 
+g:RegisterEvent("MERCHANT_SHOW") 
+g:SetScript("OnEvent", function()     
+   if(AutoRepair==true and CanMerchantRepair()) then 
+           local cost = GetRepairAllCost() 
+      if cost > 0 then 
+         local money = GetMoney() 
+         if IsInGuild() then 
+            local guildMoney = GetGuildBankWithdrawMoney() 
+            if guildMoney > GetGuildBankMoney() then 
+               guildMoney = GetGuildBankMoney() 
+            end 
+            if guildMoney > cost and CanGuildBankRepair() then 
+               RepairAllItems(1) 
+               print(format("|cfff07100工会修理花费: %.1fg|r", cost * 0.0001)) 
+               return 
+            end 
+         end 
+         if money > cost then 
+               RepairAllItems() 
+               print(format("|cffead000修理花费: %.1fg|r", cost * 0.0001)) 
+         else 
+            print("Go farm newbie.") 
+         end 
+      end 
+	end 
+end)

@@ -29,6 +29,10 @@ info.Money_gttposi = {"BOTTOM",self,"TOP",0,5}
 info.Experience_ggtShow = true
 info.Experience_ggtposi = {"BOTTOM",self,"TOP",0,5}
 
+-- coords
+info.Coords_ggtShow = true
+info.Coords_ggtposi = {"BOTTOM",self,"TOP",0,5}
+
 --Font
 info.Font = {"Fonts\\ARHei.ttf",13,"OUTLINE"}
 
@@ -63,8 +67,8 @@ info.change_color = function(color)
 	local blue = color.b*255<16 and "0"..string.sub(string.format("%#x",color.b*255),3,4) or string.sub(string.format("%#x",color.b*255),3,4)
 	return "|cff"..red..green..blue
 end
-local color = RAID_CLASS_COLORS[select(2,UnitClass("player"))]
-info.playerClassColor = info.change_color(color)
+-- local color = RAID_CLASS_COLORS[select(2,UnitClass("player"))]
+-- info.playerClassColor = info.change_color(color)
 
 
 -- GTT的一些抽取方法
@@ -73,10 +77,26 @@ info.ShowGameToolTip = function(...)
 	local func = select(2,...)
 	frame:SetScript("OnEnter",function()
 		--info.GameTooltip = function() end
-		func()
-		-- GameTooltip:Show()
+		-- print(frame:GetBottom())
+		
+		GameTooltip:SetPoint("BOTTOM",frame,"TOP")
+		func(frame)
+		GameTooltip:Show()
+		-- if(GameTooltip:IsShown()) then
+			-- local step = 0.8
+			-- GameTooltip:SetScript("OnUpdate",function(self,t)
+				-- print("update")
+				-- step = step - t
+				-- if step < 0 then
+					-- func(frame)
+					-- step = 1
+				-- end 
+			-- end)
+		-- end
+		-- func(frame)
 	end)
 	frame:SetScript("OnLeave",function() GameTooltip:Hide() end)
+	-- func()
 end
 
 -- 抽取的方法

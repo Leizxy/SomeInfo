@@ -16,12 +16,12 @@ local textures = {
 	"Interface\\AddOns\\"..AddonName.."\\Textures\\demonhunter.png"
 }
 
-local class, classFileName = UnitClass("player")
-local color = RAID_CLASS_COLORS[classFileName]
+-- local class, classFileName = UnitClass("player")
+-- local color = RAID_CLASS_COLORS[classFileName]
 -- ChatFrame1:AddMessage(class, color.r, color.g, color.b)
-local red = color.r*255<16 and "0"..string.sub(string.format("%#x",color.r*255),3,4) or string.sub(string.format("%#x",color.r*255),3,4)
-local green = color.g*255<16 and "0"..string.sub(string.format("%#x",color.g*255),3,4) or string.sub(string.format("%#x",color.g*255),3,4)
-local blue = color.b*255<16 and "0"..string.sub(string.format("%#x",color.b*255),3,4) or string.sub(string.format("%#x",color.b*255),3,4)
+-- local red = color.r*255<16 and "0"..string.sub(string.format("%#x",color.r*255),3,4) or string.sub(string.format("%#x",color.r*255),3,4)
+-- local green = color.g*255<16 and "0"..string.sub(string.format("%#x",color.g*255),3,4) or string.sub(string.format("%#x",color.g*255),3,4)
+-- local blue = color.b*255<16 and "0"..string.sub(string.format("%#x",color.b*255),3,4) or string.sub(string.format("%#x",color.b*255),3,4)
 -- print(red..","..green..","..blue..","..string.format("%#x",color.b*255))
 
 local classId = select(3,UnitClass("player"))
@@ -111,7 +111,8 @@ local function addClickScript(frame,i,currentSpec,totalSpec)
 					hideFrame(class_Frame,spec_frame1,spec_frame2)
 				end
 			end
-			print("正在切换到|cff"..red..green..blue..select(2,GetSpecializationInfo(i)).."|r专精")
+			-- print("正在切换到|cff"..red..green..blue..select(2,GetSpecializationInfo(i)).."|r专精")
+			print("正在切换到|c"..RAID_CLASS_COLORS[select(2,UnitClass("player"))].colorStr.."<<"..select(2,GetSpecializationInfo(i))..">>|r专精")
 			-- ChatFrame1:AddMessage("正在切换到"..select(2,GetSpecializationInfo(i)).."专精", color.r, color.g, color.b)
 			countDownStart = true
 		else

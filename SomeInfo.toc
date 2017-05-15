@@ -4,15 +4,18 @@
 ## Notes: 一个方便查看各种信息的插件。借鉴于Loshine的diminfo。%n并整合了部分实用小功能。适合自己整合插件包的用户（大脚，魔盒等大多都涵盖这些小功能）。
 
 ##animationdemo
-##Animation_Demo.lua
 
 
-ChangeSpec.lua
+##ChangeSpec.lua
 SomeInfo.lua
 SomeInfo_bag.lua
 SomeInfo_system.lua
 SomeInfo_money.lua
 SomeInfo_exp.lua
-
+##SomeInfo_coords.lua
+SomeInfo_lootandspec.lua
+SomeInfo_durability.lua
 
 SomeInfo_position.lua
+
+##PlayerItemLevel.lua

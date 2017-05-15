@@ -6,20 +6,23 @@ local money_Text = money:CreateFontString(nil,"OVERLAY")
 money_Text:SetFont(unpack(info.Font))
 -- money_Text:SetPoint(unpack(info.Money_position))
 money:SetAllPoints(money_Text)
+money_Text.texture = money:CreateTexture(nil,"ARTWORK")
+money_Text.texture:SetTexture("Interface\\MONEYFRAME\\UI-GoldIcon")
+money_Text.texture:SetPoint("LEFT",money_Text,"RIGHT",1,0)
 -- print(money)
 -- print(money_Text)
 -- print(info.Frames)
 info.Frames["money"] = money_Text
 -- print(info.Frames[1])
 -- info.Frames[1]:Hide()
-local gold_frame = CreateFrame("Frame",nil,UIParent)
-gold_frame:SetWidth(15)
-gold_frame:SetHeight(15)
-gold_frame:SetScale(.8)
-gold_frame:SetPoint("LEFT",money,"RIGHT",1,0)
-gold_frame.texture = gold_frame:CreateTexture(nil,"ARTWORK")
-gold_frame.texture:SetTexture("Interface\\MONEYFRAME\\UI-GoldIcon")
-gold_frame.texture:SetPoint("CENTER",gold_frame,"CENTER",0,0)
+-- local gold_frame = CreateFrame("Frame",nil,UIParent)
+-- gold_frame:SetWidth(15)
+-- gold_frame:SetHeight(15)
+-- gold_frame:SetScale(.8)
+-- gold_frame:SetPoint("LEFT",money,"RIGHT",1,0)
+-- gold_frame.texture = gold_frame:CreateTexture(nil,"ARTWORK")
+-- gold_frame.texture:SetTexture("Interface\\MONEYFRAME\\UI-GoldIcon")
+-- gold_frame.texture:SetPoint("CENTER",gold_frame,"CENTER",0,0)
 
 -- money 格式化
 --[[
@@ -42,7 +45,13 @@ local function formatTextMoney(money)
 	if gold < 1000 then
 		return gold
 	elseif gold >= 1000 and gold <1000000 then
-		return floor(gold/1000)..","..mod(gold,1000)
+		local temp = mod(gold,1000)
+		if temp < 100 and temp >= 10 then
+			temp = "0"..temp
+		elseif temp < 10 then
+			temp = "00"..temp
+		end
+		return floor(gold/1000)..","..temp
 	else
 		return floor(gold/1000000).."M"
 	end
