@@ -203,7 +203,7 @@ local function OnEvent(self, event, ...)
 --        local u, p = select(3, ...), select(4, ...)
         local u, s, r = ...
         if u == "player" and (s == "辛达苟萨之怒"
---                or s == "冷酷严冬"
+--                or s == "冷酷"
         ) then
 --            print(u..","..s..","..r)
             SendChatMessage("龙神の剣を喰らえ。","SAY")
