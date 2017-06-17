@@ -1,4 +1,4 @@
-local SomeInfo, info = ...
+﻿local SomeInfo, info = ...
 
 local money = CreateFrame("Frame",nil,UIParent)
 money:EnableMouse(true)
@@ -95,8 +95,7 @@ info.ScriptOfFrame(money,"OnEvent",function()
 				for i = 1, GetNumWatchedTokens() do
 					local cname, count, icon, cId = GetBackpackCurrencyInfo(i)
 					tb[i] = cId
-					GameTooltip:AddDoubleLine(cname,count,1,1,1,1,1,1)
-					GameTooltip:AddTexture(icon)
+					GameTooltip:AddDoubleLine(("\124T%s:15\124t"):format(icon).." "..cname,count,1,1,1,1,1,1)
 				end
 				
 			end
@@ -116,8 +115,7 @@ info.ScriptOfFrame(money,"OnEvent",function()
 				local cId = currencyList[i]
 				local cname,count,icon,_,_,_,_,_ = GetCurrencyInfo(cId)
 				if count > 0 then
-					GameTooltip:AddDoubleLine(cname,count,1,1,1,1,1,1)
-					GameTooltip:AddTexture(icon)
+					GameTooltip:AddDoubleLine(("\124T%s:15\124t"):format(icon).." "..cname,count,1,1,1,1,1,1)
 				end
 			end
 			GameTooltip:Show()
