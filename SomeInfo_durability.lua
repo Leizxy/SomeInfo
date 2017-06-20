@@ -1,61 +1,61 @@
 local SomeInfo, info = ...
 
-local durability = CreateFrame("Frame",nil,UIParent)
+local durability = CreateFrame("Frame", nil, UIParent)
 durability:EnableMouse(true)
-local durability_Text = durability:CreateFontString(nil,"OVERLAY")
+local durability_Text = durability:CreateFontString(nil, "OVERLAY")
 durability_Text:SetFont(unpack(info.Font))
 durability:SetAllPoints(durability_Text)
 info.Frames["durability"] = durability_Text
 
 local durability_slots = {
-	{1 ,"头", 1},
-	{3 ,"肩", 1},
-	{5 ,"胸", 1},
-	{6 ,"腰", 1},
-	{9 ,"腕", 1},
-	{10,"手", 1},
-	{7 ,"腿", 1},
-	{8 ,"脚", 1},
-	{16,"主", 1},
-	{17,"副", 1}
+    { 1, "头", 1 },
+    { 3, "肩", 1 },
+    { 5, "胸", 1 },
+    { 6, "腰", 1 },
+    { 9, "腕", 1 },
+    { 10, "手", 1 },
+    { 7, "腿", 1 },
+    { 8, "脚", 1 },
+    { 16, "主", 1 },
+    { 17, "副", 1 }
 }
-durability:SetScript("OnEvent",function(self,event,...)
-	local totalDurable, totalMax = 0,0
-	for i = 1, #durability_slots do
-		if GetInventoryItemLink("player",durability_slots[i][1]) ~= nil then
-			local current,max = GetInventoryItemDurability(durability_slots[i][1])
-			if current then
-				durability_slots[i][3] = current/max
-				totalDurable = totalDurable + current
-				totalMax = totalMax + max
-			end
-		end
-	end
-	if totalDurable and totalMax then
-		local per = floor(totalDurable/totalMax*100)
-		local color = "|cffffffff"
-		if per > 66 then
-			color = "|cff0CD809"
-		elseif per < 33 then
-			color = "|cffD80909"
-		else
-			color = "|cffE8DA0F"
-		end
-		durability_Text:SetText(color..floor(totalDurable/totalMax*100).."%|r")
-	else
-		durability_Text:SetText("")
-	end
+durability:SetScript("OnEvent", function(self, event, ...)
+    local totalDurable, totalMax = 0, 0
+    for i = 1, #durability_slots do
+        if GetInventoryItemLink("player", durability_slots[i][1]) ~= nil then
+            local current, max = GetInventoryItemDurability(durability_slots[i][1])
+            if current then
+                durability_slots[i][3] = current / max
+                totalDurable = totalDurable + current
+                totalMax = totalMax + max
+            end
+        end
+    end
+    if totalDurable and totalMax then
+        local per = floor(totalDurable / totalMax * 100)
+        local color = "|cffffffff"
+        if per > 66 then
+            color = "|cff0CD809"
+        elseif per < 33 then
+            color = "|cffD80909"
+        else
+            color = "|cffE8DA0F"
+        end
+        durability_Text:SetText(color .. floor(totalDurable / totalMax * 100) .. "%|r")
+    else
+        durability_Text:SetText("")
+    end
 end)
 durability:SetScript("OnMouseDown", function(self, button)
-	if button == "LeftButton" then
-		ToggleCharacter("PaperDollFrame")
-	end
+    if button == "LeftButton" then
+        ToggleCharacter("PaperDollFrame")
+    end
 end)
 durability:RegisterEvent("MERCHANT_SHOW")
 durability:RegisterEvent("PLAYER_ENTERING_WORLD")
 durability:RegisterEvent("UPDATE_INVENTORY_DURABILITY")
 
-------------人物界面------------
+------------ 人物界面------------
 --[[
 do
    PAPERDOLL_STATCATEGORIES= {
@@ -143,63 +143,75 @@ do
    end)
 end
 ]]
-------------打断----------------
+------------ 打断----------------
 -- 模式选择
-local SoloMode = false      -- 单人模式,开启后当单独一人时会使用 说 通报...
-local WaringMode = true   -- 警报模式,开启后不管在什么队伍都会使用 说 通报...
+local SoloMode = false -- 单人模式,开启后当单独一人时会使用 说 通报...
+local WaringMode = true -- 警报模式,开启后不管在什么队伍都会使用 说 通报...
 -- 默认信息
 function ShowSpellLink(SpellID)
-   local spellLink = GetSpellLink(SpellID or 0) or "<法术链接没有找到>"
-   DEFAULT_CHAT_FRAME:AddMessage(spellLink)
+    local spellLink = GetSpellLink(SpellID or 0) or "<法术链接没有找到>"
+    DEFAULT_CHAT_FRAME:AddMessage(spellLink)
 end
+
 -- 主体
 local function OnEvent(self, event, ...)
-   if (event == "PLAYER_LOGIN") then
-      self:UnregisterEvent("PLAYER_LOGIN")
-      self:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
-   elseif (event == "COMBAT_LOG_EVENT_UNFILTERED") then
-      local ZoneInfo = select(2, IsInInstance())
-      local EventType, SourceName, DestName, SpellID, ExtraskillID = select(2, ...), select(5, ...), select(9, ...), select(12, ...), select(15, ...)
-      if SourceName == UnitName("player") then
-         if EventType == "SPELL_INTERRUPT" then
-            Message = ("我好像打断了"..DestName..GetSpellLink(ExtraskillID))
-         elseif EventType == "SPELL_DISPEL" then
-            Message = ("已驱散" .. GetSpellLink(ExtraskillID))
-         elseif EventType == "SPELL_STOLEN" then
-            Message = ("已偷取" .. GetSpellLink(ExtraskillID))
-         end
-         if EventType == "SPELL_INTERRUPT" or EventType == "SPELL_DISPEL" or EventType == "SPELL_STOLEN" then
-            if IsInGroup(LE_PARTY_CATEGORY_INSTANCE) and IsInInstance() then
-               if ZoneInfo == "pvp" or ZoneInfo == "raid" or ZoneInfo == "party" or ZoneInfo == nil then
-                  if WaringMode == true then
-                     SendChatMessage(Message, "SAY")
-                  else
-                     SendChatMessage(Message, "INSTANCE_CHAT")
-                  end
-               end
-            else
-               if IsInRaid() == true then
-                  if WaringMode == true then
-                     SendChatMessage(Message, "SAY")
-                  else
-                     SendChatMessage(Message, "RAID")
-                  end
-               elseif GetNumSubgroupMembers() ~= nil and GetNumSubgroupMembers() > 0 then
-                  if WaringMode == true then
-                     SendChatMessage(Message, "SAY")
-                  else
-                     SendChatMessage(Message, "PARTY")
-                  end
-               elseif ZoneInfo == "none" then
-                  if SoloMode == true then
-                     SendChatMessage(Message, "SAY")
-                  end
-               end
+    if (event == "PLAYER_LOGIN") then
+        self:UnregisterEvent("PLAYER_LOGIN")
+        self:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
+    elseif (event == "COMBAT_LOG_EVENT_UNFILTERED") then
+        local ZoneInfo = select(2, IsInInstance())
+        local EventType, SourceName, DestName, SpellID, ExtraskillID = select(2, ...), select(5, ...), select(9, ...), select(12, ...), select(15, ...)
+        if SourceName == UnitName("player") then
+            if EventType == "SPELL_INTERRUPT" then
+                Message = ("我好像打断了 >>" .. DestName .. "<< 的" .. GetSpellLink(ExtraskillID))
+            elseif EventType == "SPELL_DISPEL" then
+                Message = ("已驱散" .. GetSpellLink(ExtraskillID))
+            elseif EventType == "SPELL_STOLEN" then
+                Message = ("已偷取" .. GetSpellLink(ExtraskillID))
             end
-         end
-      end
-   end
+            if EventType == "SPELL_INTERRUPT" or EventType == "SPELL_DISPEL" or EventType == "SPELL_STOLEN" then
+                if IsInGroup(LE_PARTY_CATEGORY_INSTANCE) and IsInInstance() then
+                    if ZoneInfo == "pvp" or ZoneInfo == "raid" or ZoneInfo == "party" or ZoneInfo == nil then
+                        if WaringMode == true then
+                            SendChatMessage(Message, "SAY")
+                        else
+                            SendChatMessage(Message, "INSTANCE_CHAT")
+                        end
+                    end
+                else
+                    if IsInRaid() == true then
+                        if WaringMode == true then
+                            SendChatMessage(Message, "SAY")
+                        else
+                            SendChatMessage(Message, "RAID")
+                        end
+                    elseif GetNumSubgroupMembers() ~= nil and GetNumSubgroupMembers() > 0 then
+                        if WaringMode == true then
+                            SendChatMessage(Message, "SAY")
+                        else
+                            SendChatMessage(Message, "PARTY")
+                        end
+                    elseif ZoneInfo == "none" then
+                        if SoloMode == true then
+                            SendChatMessage(Message, "SAY")
+                        end
+                    end
+                end
+            end
+        end
+    elseif event == "UNIT_SPELLCAST_SUCCEEDED" then
+--        local u, p = select(3, ...), select(4, ...)
+        local u, s, r = ...
+        if u == "player" and (s == "辛达苟萨之怒"
+--                or s == "冷酷zz"
+        ) then
+--            print(u..","..s..","..r)
+            SendChatMessage("龙神の剣を喰らえ。","SAY")
+        end
+    end
 end
+
 local Frame = CreateFrame("Frame")
 Frame:RegisterEvent("PLAYER_LOGIN")
+Frame:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED")
 Frame:SetScript("OnEvent", OnEvent)
