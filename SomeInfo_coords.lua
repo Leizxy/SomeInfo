@@ -11,11 +11,14 @@ info.Frames["coords"] = coords_Text
 coords:SetAllPoints(coords_Text)
 
 local coordsX,coordsY = 0,0
-local function formatCoords() return format("(|cff0CD809%d|r,|cff0CD809%d|r)",coordsX*100,coordsY*100) end
+local function formatCoords() return format("(|cff0CD809%d|r,|cff0CD809%d|r)",coordsX~=nil and coordsX*100 or 0,coordsY~=nil and coordsY*100 or 0) end
 local function formatCoordsFloat() return format("(|cff0CD809%.1f|r,|cff0CD809%.1f|r)",coordsX*100,coordsY*100) end
 
 coords:SetScript("OnUpdate",function(self)
 	coordsX,coordsY = GetPlayerMapPosition("player")
+--	if coordsX==nil or coordsY==nil then
+--		return
+--	end
 	if self:IsMouseOver() then 
 		-- coords_Text:SetText(formatCoordsFloat())
 	else
@@ -31,7 +34,7 @@ coords:SetScript("OnMousedown", function(_,btn)
 	end
 end)
 -- 地图上显示坐标
-WorldMapButton:HookScript("OnUpdate", function(self) 
+WorldMapButton:HookScript("OnUpdate", function(self)
 	if not self.coordText then 
 		--self.coordText = WorldMapFrameCloseButton:CreateFontString(nil, "OVERLAY", "GameFontGreen") 
 		self.coordText = WorldMapFrameCloseButton:CreateFontString(nil, "OVERLAY", "GameFontWhite") 
@@ -50,8 +53,8 @@ WorldMapButton:HookScript("OnUpdate", function(self)
 	elseif px == 0 and py == 0 then 
 		self.coordText:SetText(format("Mouse: |cff0CD809%.1f, %.1f|r", x*100, y*100)) 
 	elseif x > 1 or y > 1 or x < 0 or y < 0 then 
-		self.coordText:SetText(format("You: |cff0CD809%.1f, %.1f|r", px*100, py*100)) 
+		self.coordText:SetText(format("You: |cff0CD809%.1f, %.1f|r", px~=nil and px*100 or 0, py~=nil and py*100 or 0))
 	else 
-		self.coordText:SetText(format("You: |cff0CD809%.1f, %.1f|r; Mouse: |cff0CD809%.1f, %.1f|r", px*100, py*100, x*100, y*100)) 
+		self.coordText:SetText(format("You: |cff0CD809%.1f, %.1f|r; Mouse: |cff0CD809%.1f, %.1f|r", px~=nil and px*100 or 0, py~=nil and py*100 or 0, x*100, y*100))
 	end 
 end)
